@@ -181,7 +181,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
   [
     "type" : "название команды"
     "data" : "любые данные, которые будут переданы команде"
+  ],
+  [
+    "type" : "название второй команды"
+    "data" : "данные"
   ]
+  // и так далее
 ]
 ```
 За генерацию подобного ответа и отвечает метод `Commands::generate`, принимающий ассоциативный массив.
