@@ -1,0 +1,28 @@
+{
+  "name": "prettyforms",
+  "version": "0.1.0",
+  "homepage": "https://github.com/believer-ufa/prettyforms",
+  "authors": [
+    "Roman Akhmadullin <freeman.aka.ahmed@gmail.com>"
+  ],
+  "description": "Helps to make a simple and easy client-server validation for forms",
+  "main": [
+      "prettyforms.js",
+      "prettyforms_en.js"
+  ],
+  "keywords": [
+    "forms",
+    "validation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies" : {
+    "jquery" : ">= 1.9.0"
+  }
+}
