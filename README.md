@@ -145,6 +145,8 @@ bower install prettyforms --save
 ````php
 use PrettyForms\LaravelValidatorTrait;
 class User extends Eloquent implements UserInterface, RemindableInterface {
+
+	use UserTrait, RemindableTrait, LaravelValidatorTrait;
     
     //...
     
