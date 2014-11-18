@@ -164,7 +164,7 @@ PrettyForms = new function () {
          * @param function validator_func Функция валидации
          * @param string error_message Сообщение об ошибке, если валидация провалилась
          */
-        this.setValidator = function(rule_name, validator_func, error_message) {
+        this.setValidator = function(rule_name, error_message, validator_func) {
             this.validation_rules[rule_name] = validator_func;
             PrettyForms.messages.rules[rule_name] = error_message;
         }
