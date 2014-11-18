@@ -110,7 +110,7 @@ bower install prettyforms --save
 | intonly  | Можно ввести только число  | число |
 | passretry  | Должно быть равно полю с паролем  | наименование поля с паролем, по-умолчанию "password" |
 
-#####Добавление своих валидаторов
+####Добавление своих валидаторов
 Вы можете легко добавить свои собственные валидаторы, используя подобный пример:
 ```javascript
 PrettyForms.Validator.setValidator('needempty', 'Поле должно быть пустым!', function(element, value, param){
