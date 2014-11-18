@@ -1,0 +1,16 @@
+PrettyForms.messages.server_error    = 'Something went wrong on the server, and he was unable to process your data. We will try to fix it as soon as possible. Please try again later.';
+PrettyForms.messages.really          = 'Really take action?';
+PrettyForms.messages.fix_and_retry   = 'Please correct the errors and resubmit the form:';
+PrettyForms.messages.rules.notempty  = 'The field can not be empty.';
+PrettyForms.messages.rules.minlength = 'At least {%} characters.';
+PrettyForms.messages.rules.maxlength = 'Not more than {%} characters.';
+PrettyForms.messages.rules.hasdomain = 'The address must start with the correct domain ({%})';
+PrettyForms.messages.rules.isnumeric = 'The field can only contain numbers.';
+PrettyForms.messages.rules.isemail   = 'Must be entered the correct E-Mail';
+PrettyForms.messages.rules.isurl     = 'Must be entered the correct URL-site address.';
+PrettyForms.messages.rules.isdate    = 'The field must contain a date';
+PrettyForms.messages.rules.isphone   = 'Not entered the correct format phone';
+PrettyForms.messages.rules.minint    = 'Minimum input number {%}';
+PrettyForms.messages.rules.maxint    = 'The maximum input number {%}';
+PrettyForms.messages.rules.intonly   = 'You can only enter a number';
+PrettyForms.messages.rules.passretry = 'Must be equal to the field with the password';
