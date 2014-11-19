@@ -182,14 +182,16 @@ PrettyForms = new function () {
         this.markElementAsChecked = function(el) {
             var el_errors_container = this.getElementErrorsContainer(el);
             el_errors_container.hide();
+
             // Если инпут находится внутри .form-group, будем работать с ним
             var el_form_group = el.closest('.form-group');
             if (el_form_group.length !== 0) {
-                el_form_group.addClass('has-feedback');
-                el_form_group.addClass('has-success').removeClass('has-warning');
+                el_form_group.removeClass('has-warning');
+                //el_form_group.addClass('has-feedback');
+                //el_form_group.addClass('has-success');
                 if (el.get(0).tagName === 'INPUT') {
                     el_form_group.find('span.glyphicon').remove();
-                    el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                    //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
                 }
             } else {
                 el.css('border', '');
@@ -459,9 +461,10 @@ PrettyForms = new function () {
 
 $(document).ready(function () {
     // При наборе текста автоматически производить валидацию
-    $('body').on('change keyup', 'input[data-validation], select[data-validation], textarea[data-validation]', function () {
-        PrettyForms.Validator.validate($(this));
-    });
+    // по-умолчанию отключено, чтобы не раздражать пользователя
+//    $('body').on('change keyup', 'input[data-validation], select[data-validation], textarea[data-validation]', function () {
+//        PrettyForms.Validator.validate($(this));
+//    });
 
     // При отправке формы автоматически производить валидацию данных в ней
     $('body').on('submit', 'form', function () {
