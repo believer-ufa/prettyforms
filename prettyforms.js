@@ -173,6 +173,11 @@ PrettyForms = new function () {
             var el_input_name = el.attr('name');
             var el_errors_container = $('#validation-error-' + el_input_name);
             if (el_errors_container.length === 0) {
+
+                if (el.closest('.input-group').length > 0) {
+                    el = el.parent();
+                }
+
                 // Если контейнер для ошибок не был найден на странице, добавим его
                 el.after(PrettyForms.templates.element_validations_container.replace('{%}', el_input_name));
                 el_errors_container = $('#validation-error-' + el_input_name);
