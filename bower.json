@@ -1,6 +1,6 @@
 {
   "name": "prettyforms",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "homepage": "https://github.com/believer-ufa/prettyforms",
   "authors": [
     "Roman Akhmadullin <freeman.aka.ahmed@gmail.com>"
@@ -8,7 +8,8 @@
   "description": "Helps to make a simple and easy client-server validation for forms",
   "main": [
       "prettyforms.js",
-      "prettyforms_en.js"
+      "prettyforms_en.js",
+      "prettyforms.css"
   ],
   "keywords": [
     "forms",
