@@ -146,7 +146,8 @@ PrettyForms.Validator.setValidator('needempty', 'Поле должно быть 
 use PrettyForms\Commands;
 // Валидируем данные, сохраняем результат валидации в $validation_success
 
-if ($validation_success) {
+if ($validation_success === false) {
+    // Данные невалидны
     $json_response = Commands::generate(array(
         'validation_errors' => Commands::generateValidationErrors(array(
             'field_name' => array('error_message_1','error_message_2'),
