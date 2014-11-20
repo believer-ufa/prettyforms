@@ -163,6 +163,9 @@ if ($validation_success) {
         'redirect' => '/registration_success'
     ));
 }
+
+// Возвращает ответ клиенту
+echo json_encode($json_response);
 ```
 
 ####Laravel
