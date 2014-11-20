@@ -14,3 +14,4 @@ PrettyForms.messages.rules.minint    = 'Minimum input number {%}';
 PrettyForms.messages.rules.maxint    = 'The maximum input number {%}';
 PrettyForms.messages.rules.intonly   = 'You can only enter a number';
 PrettyForms.messages.rules.passretry = 'Must be equal to the field with the password';
+PrettyForms.messages.rules.checked   = 'Must be marked';

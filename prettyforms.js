@@ -29,7 +29,8 @@ PrettyForms = new function () {
             minint:    'Минимальное вводимое число {%}',
             maxint:    'Максимальное вводимое число {%}',
             intonly:   'Можно ввести только число',
-            passretry: 'Должно быть равно полю с паролем'
+            passretry: 'Должно быть равно полю с паролем',
+            checked:   'Должно быть помечено'
         }
     };
 
@@ -57,14 +58,8 @@ PrettyForms = new function () {
         // Все правила валидации засунем в хеш, ключём будет название валидатора, значением - объект валидатор.
         this.validation_rules = {};
 
-        /*
-         Объект-валидатор создадим не описывая его класс отдельно.
-         Поле error - текст ошибки выдаваемой пользователю.
-         Поле validator - функция производящая валидацию.
-         Функция должна принимать минимум один параметр - элемент для валидации.
-         Второй, не обязательный параметр - "параметры валидации".
-         Валидатор возвращает <b>TRUE</b> если нет ошибок.
-         */
+        // Правила валидации
+        // Валидаторы возвращают TRUE, если нет ошибок
 
         // Валидатор, проверяющий элемент на "не пусто"
         this.validation_rules['notempty'] = function (el, val) {
@@ -158,6 +153,18 @@ PrettyForms = new function () {
             return val === $('input[name="' + password_input_name + '"]').val();
         };
 
+        // Проверить, что на checkbox-элементе стоит галочка, или же на одном из элементов с подобным именем
+        this.validation_rules['checked'] = function (el, val) {
+            if (el.attr('name').indexOf('[]') === -1) {
+                return el.is(':checked');
+            } else {
+                // Если это чекбокс-массив, то следовательно, среди элементов может быть помеченным другой элемент.
+                // Попробуем поискать помеченные элементы на странице такого же названия.
+                // Если найдем - будем считать его помеченным.
+                return ($('input[name="' + el.attr('name') + '"]:checked').length > 0);
+            }
+        };
+
         /**
          * Добавить определённый валидатор
          * @param string rule_name Название правила валидации
@@ -167,11 +174,32 @@ PrettyForms = new function () {
         this.setValidator = function(rule_name, error_message, validator_func) {
             this.validation_rules[rule_name] = validator_func;
             PrettyForms.messages.rules[rule_name] = error_message;
-        }
+        };
 
+        // Вернуть тот элемент, который будет помечен как ошибочный и который видит пользователь.
+        // Не всегда это оригинальный инпут.
+        this.getMarkingElement = function(el) {
+            if (el.get(0).tagName === 'SELECT' && $(el).next().hasClass('chosen-container')) {
+                el = el.next();
+            }
+
+            if (el.get(0).tagName === 'TEXTAREA' && $(el).next().hasClass('cke')) {
+                el = el.next();
+            }
+
+            if (el.attr('type') === 'checkbox' || el.attr('type') === 'radio') {
+                el = el.parent().parent();
+            }
+
+            return el;
+        };
+
+        // Возвращает контейнер с ошибками элемента. Если контейнер не найден,
+        // он будет создан сразу после элемента
         this.getElementErrorsContainer = function(el) {
-            var el_input_name = el.attr('name');
-            var el_errors_container = $('#validation-error-' + el_input_name);
+            var element_name = el.attr('name');
+            el = this.getMarkingElement(el);
+            var el_errors_container = $('#validation-error-' + element_name);
             if (el_errors_container.length === 0) {
 
                 var input_group = el.closest('.input-group');
@@ -180,8 +208,8 @@ PrettyForms = new function () {
                 }
 
                 // Если контейнер для ошибок не был найден на странице, добавим его
-                el.after(PrettyForms.templates.element_validations_container.replace('{%}', el_input_name));
-                el_errors_container = $('#validation-error-' + el_input_name);
+                el.after(PrettyForms.templates.element_validations_container.replace('{%}', element_name));
+                el_errors_container = $('#validation-error-' + element_name);
             }
             return el_errors_container;
         };
@@ -201,7 +229,7 @@ PrettyForms = new function () {
                     //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
                 }
             } else {
-                el.removeClass('prettyforms-validation-error');
+                this.getMarkingElement(el).removeClass('prettyforms-validation-error');
             }
         };
         // Пометим элемент как содержащий ошибку
@@ -213,7 +241,7 @@ PrettyForms = new function () {
                 el.addClass('validation-server-error');
             }
 
-            // Если инпут находится внутри .form-group, будем работать с ним. Иначе вручную окрасим инпут красной рамкой.
+            // Если инпут находится внутри .form-group, будем работать с ним. Иначе добавим класс .prettyforms-validation-error
             var el_form_group = el.closest('.form-group');
             if (el_form_group.length !== 0) {
                 el_form_group.addClass('has-feedback');
@@ -226,7 +254,7 @@ PrettyForms = new function () {
                     }
                 }
             } else {
-                el.addClass('prettyforms-validation-error');
+                this.getMarkingElement(el).addClass('prettyforms-validation-error');
             }
 
             el_errors_container.stop().css('opacity', '1').animate({opacity: 0.7}, 1500, 'linear');
@@ -300,18 +328,7 @@ PrettyForms = new function () {
 
             // Собственно, сама проверка элемента
             var isValid = checkElement(el);
-
-            if (el.get(0).tagName === 'SELECT' && $(el).next().hasClass('chosen-container')) {
-                el = el.next();
-            }
-
-            if (el.get(0).tagName === 'TEXTAREA' && $(el).next().hasClass('cke')) {
-                el = el.next();
-            }
-
-            if (el.attr('type') == 'checkbox' || el.attr('type') == 'radio') {
-                el = el.parent().parent().parent();
-            }
+            var element_name = el.attr('name');
 
             // Элемент проверен, ошибок нет
             if (isValid === true) {
@@ -343,7 +360,8 @@ PrettyForms = new function () {
 
                     if (!PrettyForms.Validator.validate(form_element)) {
                         if (form_valid) {
-                            form_element.focus();
+                            // Сфокусируемся на первом ошибочном элементе
+                            PrettyForms.Validator.getMarkingElement(form_element).focus();
                         }
                         form_valid = false;
                     }
@@ -565,6 +583,8 @@ $(document).ready(function () {
             var html = PrettyForms.messages.fix_and_retry;
             if (typeof(data) !== 'undefined') {
                 if (typeof(data) === 'string') {
+                    // Если в качестве ошибки была передана просто строка - отобразим её в общем контейнере
+                    // с сообщениями об ошибках
                     PrettyForms.validation_errors_container.html(data).show();
                 } else {
                     var focused = false;
@@ -579,7 +599,8 @@ $(document).ready(function () {
                             });
                             PrettyForms.Validator.markElementAsErroneous(element,element_errors,true);
                             if (focused === false) {
-                                element.focus();
+                                // Сфокусируемся на первом ошибочном элементе
+                                PrettyForms.Validator.getMarkingElement(element).focus();
                                 focused = true;
                             }
                         }
