@@ -427,7 +427,7 @@ PrettyForms = new function () {
 
         // Очистить от данных все инпуты в указанном контейнере
         var clearInputData = function (inputs_container) {
-            this.getInputsList(inputs_container).map(function () {
+            PrettyForms.getInputsList(inputs_container).map(function () {
                 var $this = $(this);
                 if ($this.attr('type') !== 'hidden') {
                     $this.val('');
@@ -567,6 +567,7 @@ $(document).ready(function () {
                     PrettyForms.sendData(link, form_values, clearinputs, clicked_element);
                 }
             } else {
+                PrettyForms.validation_errors_container = $('');
                 // Если не был указан контейнер, из которого надо собрать информацию,
                 // то просто отправим запрос на указанный URL и обработаем ответ.
                 PrettyForms.sendData(link, {}, false, clicked_element);
