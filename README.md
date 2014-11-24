@@ -16,7 +16,11 @@ PrettyForms
 
 То есть, сервер всегда отвечает определённым набором команд для браузера, а браузер просто исполняет данные команды на клиенской машине. Таков алгоритм работы библиотеки.
 
-Вся дополнительная информация о библиотеке доступна в разделе [wiki](https://github.com/believer-ufa/prettyforms/wiki)
+###Статьи на хабрахабре:
+1. [PrettyForms — простая клиент-серверная валидация форм](http://habrahabr.ru/post/243637/)
+2. [Динамичное веб-приложение на основе Laravel, PrettyForms и Backbone.js](http://habrahabr.ru/post/243925/)
+
+Вся дополнительная информация о библиотеке доступна в разделе [wiki](https://github.com/believer-ufa/prettyforms/wiki).
 
 1. [Установка](https://github.com/believer-ufa/prettyforms/wiki/1.-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
 2. [Пример использования библиотеки](https://github.com/believer-ufa/prettyforms/wiki/2.-%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B8)
