@@ -3,18 +3,17 @@
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Response;
 use PrettyForms\Commands;
+use PrettyForms\LaravelResponse;
 
 // Trait for extend Laravel models for simple validation mechanizm
 trait LaravelValidatorTrait {
 
     private $errors;
 
-    public function validate($data = null)
+    public function validate()
     {
-
-        $data = is_null($data) ? Input::all() : $data;
+        $data = $this->getAttributes();
 
         // make a new validator object
         $validator = Validator::make($data, $this->rules);
@@ -50,11 +49,9 @@ trait LaravelValidatorTrait {
                 DB::rollback();
             }
 
-            $output = Commands::generate([
+            $response = LaravelResponse::generate([
                 'validation_errors' => Commands::generateValidationErrors($this->errors->getMessages())
             ]);
-            $response = Response::make($output, 200);
-            $response->header('Content-Type', 'application/json');
             $response->send();
             die();
         }
