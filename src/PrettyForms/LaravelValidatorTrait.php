@@ -1,10 +1,8 @@
 <?php namespace PrettyForms;
 
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use PrettyForms\Commands;
-use PrettyForms\LaravelResponse;
 
 // Trait for extend Laravel models for simple validation mechanizm
 trait LaravelValidatorTrait {
@@ -49,11 +47,11 @@ trait LaravelValidatorTrait {
                 DB::rollback();
             }
 
-            $response = LaravelResponse::generate([
+            $response = Commands::generate([
                 'validation_errors' => Commands::generateValidationErrors($this->errors->getMessages())
             ]);
-            $response->send();
-            die();
+
+            return $response;
         }
     }
 }
