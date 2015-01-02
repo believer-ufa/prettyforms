@@ -13,8 +13,21 @@ trait LaravelValidatorTrait {
     {
         $data = $this->getAttributes();
 
+        if (method_exists($this, 'create_rules') AND method_exists($this, 'update_rules')) {
+            $rules = is_null($this->id)
+                ? $this->create_rules()
+                : $this->update_rules();
+        } elseif (method_exists($this, 'validation_rules') OR property_exists($this, 'validation_rules')) {
+            $rules = method_exists($this, 'validation_rules')
+                ? $this->validation_rules()
+                : $this->validation_rules;
+        } else {
+            // Для совместимости оставим поддержку короткого варианта свойства правил валидации
+            $rules = $this->rules;
+        }
+
         // make a new validator object
-        $validator = Validator::make($data, $this->rules);
+        $validator = Validator::make($data, $rules);
 
         // check for failure
         if ($validator->fails())
