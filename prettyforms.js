@@ -202,6 +202,17 @@ PrettyForms = new function () {
         // он будет создан сразу после элемента
         this.getElementErrorsContainer = function(el) {
             var element_name = el.attr('name');
+            var current_el = el.get(0);
+
+            // Если указанный объект - это массив, то придётся для начала вычислить его номер
+            if (element_name.indexOf('[') !== -1) {
+                $('[name="'+element_name+'"]').map(function(num){
+                    if (this === current_el) {
+                        element_name = element_name.replace('[','').replace(']','') + '-' + num;
+                    }
+                });
+            }
+
             el = this.getMarkingElement(el);
             var el_errors_container = $('#validation-error-' + element_name);
             if (el_errors_container.length === 0) {
