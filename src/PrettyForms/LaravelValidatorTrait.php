@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use PrettyForms\Commands;
 
 // Trait for extend Laravel models for simple validation mechanizm
 trait LaravelValidatorTrait {
@@ -60,11 +59,7 @@ trait LaravelValidatorTrait {
                 DB::rollback();
             }
 
-            $response = Commands::generate([
-                'validation_errors' => Commands::generateValidationErrors($this->errors->getMessages())
-            ]);
-
-            return $response;
+            throw (new LaravelValidatorException)->setValidationErrors($this->errors->getMessages());
         }
     }
 }
