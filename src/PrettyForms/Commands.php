@@ -26,14 +26,18 @@ class Commands {
      * @return array
      */
     static function generateValidationErrors($messages) {
-        $output = [];
-        foreach($messages as $field => $errors) {
-            $output[] = [
-                'field' => $field,
-                'errors' => $errors
-            ];
+        if (is_array($messages)) {
+            $output = [];
+            foreach($messages as $field => $errors) {
+                $output[] = [
+                    'field' => $field,
+                    'errors' => $errors
+                ];
+            }
+            return $output;
+        } else {
+            return $messages;
         }
-        return $output;
     }
 
 }
