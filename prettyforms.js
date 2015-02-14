@@ -261,7 +261,7 @@ PrettyForms = new function () {
             if (el_form_group.length !== 0) {
                 el_form_group.addClass('has-feedback');
                 el_form_group.removeClass('has-success');
-                el_form_group.find('span.glyphicon').remove();
+                el_form_group.find('span.glyphicon.glyphicon-warning-sign.form-control-feedback').remove();
                 if (server_error !== true) {
                     el_form_group.addClass('has-warning');
                     if (el.get(0).tagName === 'INPUT') {
