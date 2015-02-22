@@ -57,7 +57,7 @@ trait LaravelValidatorTrait {
      */
     public function validateAndSave(array $options = array()) {
         if ($this->validate()) {
-            return parent::save($options);
+            return $this->save($options);
         } else {
             if (DB::transactionLevel() == 1) {
                 // Rollback started transaction
