@@ -19,6 +19,8 @@ PrettyForms = new function () {
     this.messages = {
         server_error:  'Что-то пошло не так на сервере, и он не смог обработать ваши данные. Мы постараемся исправить это как можно скорее. Пожалуйста, повторите попытку позже.',
         really:        'Действительно выполнить действие?',
+        really_title:  'Вы уверены?',
+        really_cancel: 'Отмена',
         fix_and_retry: 'Пожалуйста, исправьте ошибки в форме и повторите отправку.',
         rules: {
             notempty:  'Поле не может быть пустым.',
@@ -552,6 +554,60 @@ $(document).ready(function () {
         // Проверим, что элемент, по которому был клик, не отключён через класс или атрибут
         if (!clicked_element.hasClass('disabled') && typeof (clicked_element.attr('disabled')) === 'undefined') {
 
+            var execute_action = function() {
+                if (inputs_container.length > 0) {
+
+                    PrettyForms.setFormContainer(inputs_container);
+
+                    PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
+                    if (PrettyForms.validation_errors_container.length === 0) {
+                        // Если контейнер для ошибок валидации не был найден на странице, добавим его перед кнопкой
+                        clicked_element.before(PrettyForms.templates.form_validation_messages);
+                        PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
+                    }
+                    PrettyForms.validation_errors_container.html('').hide();
+
+                    // Снимем классы с инпутов, помеченных о том, что в них была найдена ошибка на сервере
+                    $(inputs_container).find('.validation-server-error').removeClass('validation-server-error');
+
+                    var form_values = PrettyForms.getInputData(inputs_container);
+                    if (form_values === false) {
+                        PrettyForms.Commands.execute('validation_errors');
+                    } else {
+                        var clearinputs = false;
+                        // Если в атрибутах кнопки был передан атрибут "data-clearinputs" со значением "true", значит надо
+                        // будет очистить форму после успешного запроса
+                        if (clicked_element.attr('data-clearinputs') === 'true') {
+                            clearinputs = inputs_container;
+                        }
+
+                        // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен
+                        if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
+                            form_values[PrettyForms.token_name] = PrettyForms.token_value;
+                        }
+
+                        PrettyForms.sendData(link, form_values, clearinputs, clicked_element);
+                    }
+                } else {
+                    PrettyForms.validation_errors_container = $('');
+                    // Если не был указан контейнер, из которого надо собрать информацию,
+                    // то просто отправим запрос на указанный URL и обработаем ответ.
+
+                    form_values = {};
+
+                    // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен безопасности
+                    if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
+                        form_values[PrettyForms.token_name] = PrettyForms.token_value;
+                    }
+
+                    // В качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
+                    // по которой был совершён клик
+                    PrettyForms.setFormContainer(clicked_element.parent());
+
+                    PrettyForms.sendData(link, form_values, false, clicked_element);
+                }
+            };
+
             // Если есть класс really, сначала удостоверимся, что человек действительно хочет совершить действие
             if (clicked_element.hasClass('really')) {
                 var text = PrettyForms.messages.really;
@@ -559,62 +615,33 @@ $(document).ready(function () {
                     text = clicked_element.attr('data-really-text');
                 }
 
-                if (!confirm(text)) {
-                    return false;
-                }
-            }
+                if (typeof(swal) !== 'undefined') {
 
-            if (inputs_container.length > 0) {
+                    var text_btn = clicked_element.attr('data-really-text-btn') ? clicked_element.attr('data-really-text-btn') : 'Выполнить действие';
 
-                PrettyForms.setFormContainer(inputs_container);
-
-                PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
-                if (PrettyForms.validation_errors_container.length === 0) {
-                    // Если контейнер для ошибок валидации не был найден на странице, добавим его перед кнопкой
-                    clicked_element.before(PrettyForms.templates.form_validation_messages);
-                    PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
-                }
-                PrettyForms.validation_errors_container.html('').hide();
-
-                // Снимем классы с инпутов, помеченных о том, что в них была найдена ошибка на сервере
-                $(inputs_container).find('.validation-server-error').removeClass('validation-server-error');
-
-                var form_values = PrettyForms.getInputData(inputs_container);
-                if (form_values === false) {
-                    PrettyForms.Commands.execute('validation_errors');
+                    swal({
+                        title:              PrettyForms.messages.really_title,
+                        text:               text,
+                        type:               "warning",
+                        showCancelButton:   true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText:  text_btn,
+                        cancelButtonText:   PrettyForms.messages.really_cancel,
+                        closeOnConfirm:     false
+                    }, function() {
+                        execute_action();
+                    });
                 } else {
-                    var clearinputs = false;
-                    // Если в атрибутах кнопки был передан атрибут "data-clearinputs" со значением "true", значит надо
-                    // будет очистить форму после успешного запроса
-                    if (clicked_element.attr('data-clearinputs') === 'true') {
-                        clearinputs = inputs_container;
+                    if (confirm(text)) {
+                        execute_action();
+                    } else {
+                        return false;
                     }
-
-                    // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен
-                    if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
-                        form_values[PrettyForms.token_name] = PrettyForms.token_value;
-                    }
-
-                    PrettyForms.sendData(link, form_values, clearinputs, clicked_element);
                 }
             } else {
-                PrettyForms.validation_errors_container = $('');
-                // Если не был указан контейнер, из которого надо собрать информацию,
-                // то просто отправим запрос на указанный URL и обработаем ответ.
-
-                form_values = {};
-
-                // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен безопасности
-                if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
-                    form_values[PrettyForms.token_name] = PrettyForms.token_value;
-                }
-
-                // В качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
-                // по которой был совершён клик
-                PrettyForms.setFormContainer(clicked_element.parent());
-
-                PrettyForms.sendData(link, form_values, false, clicked_element);
+                execute_action();
             }
+
         }
 
         return false;
@@ -669,4 +696,35 @@ $(document).ready(function () {
         // nothing to do
     });
 
+    PrettyForms.Commands.registerHandler('success', function (data) {
+        if (typeof(swal) !== 'undefined') {
+            swal(data.title, data.text, "success");
+        } else {
+            alert(data.title + '\n\n' + data.text);
+        }
+    });
+
+    PrettyForms.Commands.registerHandler('warning', function (data) {
+        if (typeof(swal) !== 'undefined') {
+            swal(data.title, data.text, "warning");
+        } else {
+            alert(data.title + '\n\n' + data.text);
+        }
+    });
+
+    PrettyForms.Commands.registerHandler('info', function (data) {
+        if (typeof(swal) !== 'undefined') {
+            swal(data.title, data.text, "info");
+        } else {
+            alert(data.title + '\n\n' + data.text);
+        }
+    });
+
+    PrettyForms.Commands.registerHandler('error', function (data) {
+        if (typeof(swal) !== 'undefined') {
+            swal(data.title, data.text, "error");
+        } else {
+            alert(data.title + '\n\n' + data.text);
+        }
+    });
 });
