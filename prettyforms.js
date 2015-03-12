@@ -19,6 +19,7 @@ PrettyForms = new function () {
     this.messages = {
         server_error:  'Что-то пошло не так на сервере, и он не смог обработать ваши данные. Мы постараемся исправить это как можно скорее. Пожалуйста, повторите попытку позже.',
         really:        'Действительно выполнить действие?',
+        really_agree:  'Выполнить действие',
         really_title:  'Вы уверены?',
         really_cancel: 'Отмена',
         fix_and_retry: 'Пожалуйста, исправьте ошибки в форме и повторите отправку.',
@@ -617,7 +618,9 @@ $(document).ready(function () {
 
                 if (typeof(swal) !== 'undefined') {
 
-                    var text_btn = clicked_element.attr('data-really-text-btn') ? clicked_element.attr('data-really-text-btn') : 'Выполнить действие';
+                    var text_btn = clicked_element.attr('data-really-text-btn')
+                        ? clicked_element.attr('data-really-text-btn')
+                        : PrettyForms.messages.really_agree;
 
                     swal({
                         title:              PrettyForms.messages.really_title,

@@ -1,5 +1,6 @@
 PrettyForms.messages.server_error    = 'Something went wrong on the server, and he was unable to process your data. We will try to fix it as soon as possible. Please try again later.';
 PrettyForms.messages.really          = 'Really take action?';
+PrettyForms.messages.really_agree    = 'Do it';
 PrettyForms.messages.really_title    = 'Are you sure?';
 PrettyForms.messages.really_cancel   = 'Cancel';
 PrettyForms.messages.fix_and_retry   = 'Please correct the errors and resubmit the form:';
