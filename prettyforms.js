@@ -206,7 +206,7 @@ PrettyForms = new function () {
 
             // Если указанный объект - это массив, то придётся для начала вычислить его номер
             if (element_name.indexOf('[') !== -1) {
-                $('[name="'+element_name+'"]').map(function(num){
+                PrettyForms.form_container.find('[name="'+element_name+'"]').map(function(num) {
                     if (this === current_el) {
                         element_name = element_name.replace('[','').replace(']','') + '-' + num;
                     }
@@ -214,7 +214,8 @@ PrettyForms = new function () {
             }
 
             el = this.getMarkingElement(el);
-            var el_errors_container = $('#validation-error-' + element_name);
+            var el_errors_container = PrettyForms.form_container.find('#validation-error-' + element_name);
+
             if (el_errors_container.length === 0) {
 
                 var input_group = el.closest('.input-group');
@@ -224,10 +225,11 @@ PrettyForms = new function () {
 
                 // Если контейнер для ошибок не был найден на странице, добавим его
                 el.after(PrettyForms.templates.element_validations_container.replace('{%}', element_name));
-                el_errors_container = $('#validation-error-' + element_name);
+                el_errors_container = PrettyForms.form_container.find('#validation-error-' + element_name);
             }
             return el_errors_container;
         };
+
         // Пометим элемент как проверенный (удалим все сообщения об ошибках)
         this.markElementAsChecked = function(el) {
             var el_errors_container = this.getElementErrorsContainer(el);
@@ -343,7 +345,6 @@ PrettyForms = new function () {
 
             // Собственно, сама проверка элемента
             var isValid = checkElement(el);
-            var element_name = el.attr('name');
 
             // Элемент проверен, ошибок нет
             if (isValid === true) {
@@ -419,6 +420,11 @@ PrettyForms = new function () {
     // Вытащить все инпуты из указанного контейнера
     this.getInputsList = function (inputs_container) {
         return $(inputs_container).find('input[type="text"], input[type="email"], input[type="password"], input[type="hidden"], input[type="checkbox"], input[type="radio"]:checked, select, textarea');
+    };
+
+    // Установить в качетве контейнера текущей формы определённый элемент
+    this.setFormContainer = function(element) {
+        this.form_container = $(element);
     };
 
     /**
@@ -507,6 +513,7 @@ $(document).ready(function () {
 
     // При отправке формы автоматически производить валидацию данных в ней
     $('body').on('submit', 'form', function () {
+        PrettyForms.setFormContainer($(this));
         var form_values = PrettyForms.getInputData(this);
         if (form_values === false) {
             // Если во время сбора данных были обнаружены ошибки валидации, предотвратим отправку формы
@@ -558,6 +565,9 @@ $(document).ready(function () {
             }
 
             if (inputs_container.length > 0) {
+
+                PrettyForms.setFormContainer(inputs_container);
+
                 PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
                 if (PrettyForms.validation_errors_container.length === 0) {
                     // Если контейнер для ошибок валидации не был найден на странице, добавим его перед кнопкой
@@ -598,6 +608,10 @@ $(document).ready(function () {
                 if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
                     form_values[PrettyForms.token_name] = PrettyForms.token_value;
                 }
+
+                // В качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
+                // по которой был совершён клик
+                PrettyForms.setFormContainer(clicked_element.parent());
 
                 PrettyForms.sendData(link, form_values, false, clicked_element);
             }
