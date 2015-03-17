@@ -70,7 +70,11 @@ PrettyForms = new function () {
 
         // Валидатор, проверяющий элемент на "не пусто"
         this.validation_rules['notempty'] = function (el, val) {
-            return val == null ? true : val.toString().length != 0;
+            if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
+                return PrettyForms.form_container.find('input[name="' + el.attr('name') + '"]:checked').length > 0;
+            } else {
+                return val == null ? true : val.toString().length != 0;
+            }
         };
 
         // Валидатор проверяющий минимальное кол-во символов в элементе.
@@ -422,7 +426,7 @@ PrettyForms = new function () {
 
     // Вытащить все инпуты из указанного контейнера
     this.getInputsList = function (inputs_container) {
-        return $(inputs_container).find('input[type="text"], input[type="email"], input[type="password"], input[type="hidden"], input[type="checkbox"], input[type="radio"]:checked, select, textarea');
+        return $(inputs_container).find('input[type="text"], input[type="email"], input[type="password"], input[type="hidden"], input[type="checkbox"], input[type="radio"], select, textarea');
     };
 
     // Установить в качетве контейнера текущей формы определённый элемент
