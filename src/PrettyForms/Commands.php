@@ -9,13 +9,20 @@ class Commands {
      * Generate response with commands
      * @param array $commands
      */
-    static function generate($commands) {
+    static function generate($commands, $data = '') {
         $output = [];
-        foreach($commands as $command_name => $command_data) {
+        if (!is_array($commands)) {
             $output[] = [
-                'type' => $command_name,
-                'data' => $command_data
+                'type' => $commands,
+                'data' => $data
             ];
+        } else {
+            foreach($commands as $command_name => $command_data) {
+                $output[] = [
+                    'type' => $command_name,
+                    'data' => $command_data
+                ];
+            }
         }
         return $output;
     }

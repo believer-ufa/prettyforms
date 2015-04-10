@@ -634,7 +634,7 @@ $(document).ready(function () {
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText:  text_btn,
                         cancelButtonText:   PrettyForms.messages.really_cancel,
-                        closeOnConfirm:     false
+                        closeOnConfirm:     true
                     }, function() {
                         execute_action();
                     });
