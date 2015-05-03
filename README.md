@@ -11,8 +11,6 @@ PrettyForms
 1. [PrettyForms — простая клиент-серверная валидация форм](http://habrahabr.ru/post/243637/)
 2. [Динамичное веб-приложение на основе Laravel, PrettyForms и Backbone.js](http://habrahabr.ru/post/243925/)
 
-Вся дополнительная информация доступна в разделе [wiki](https://github.com/believer-ufa/prettyforms/wiki).
-
 ## Установка
 Вы можете скачать zip-архив с библиотекой, либо установить её через bower:
 ```shell
