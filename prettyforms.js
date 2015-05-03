@@ -1,16 +1,22 @@
+// Class for working with forms on site: validation of a form, sending data to the server and execute commands received from the server
 // Класс для работы с формами сайта: валидация элементов формы, отправка данных на сервер и выполнение команд, полученных от сервера
 PrettyForms = new function () {
 
+    // HTML-templates used by library
     // HTML-шаблоны, используемые библиотекой
     this.templates = {
+        // The container in which to put error messages relating to a particular element
         // Контейнер, в который будут помещены сообщения об ошибках, относящиеся к определённому элементу
         element_validations_container: '<div style="display:none;margin-top:10px" id="validation-error-{%}" class="alert alert-danger" role="alert"></div>',
+        // Error message
         // Сообщение об ошибке
         element_validation_message: '<p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>&nbsp;{%}</p>',
+        // A container with a list of common errors related to a form must have a class .validation-errors
         // Контейнер с перечислением общих ошибок, относящихся к форме, обязательно должен иметь класс .validation-errors
         form_validation_messages: '<div style="margin-bottom:10px" class="validation-errors alert alert-danger"></div>'
     };
 
+    // Messages used by library
     // Сообщения, используемые библиотекой
     this.messages = {
         server_error:  'Что-то пошло не так на сервере, и он не смог обработать ваши данные. Мы постараемся исправить это как можно скорее. Пожалуйста, повторите попытку позже.',
@@ -37,17 +43,18 @@ PrettyForms = new function () {
         }
     };
 
+    // Small class which is engaged in the implementation of commands received from the server
     // Небольшой класс, который занимается выполнением команд, получаемых с сервера
     this.Commands = new function () {
-        this.handlers = {}; // Массив зарегистрированных обработчиков команд
+        this.handlers = {}; // An array of registered handler Command | Массив зарегистрированных обработчиков команд
         this.execute = function (command, params) {
             if (this.handlers[command]) {
                 this.handlers[command](params);
             }
         };
         /**
-         * Зарегистрировать обработчик команды, отправленной сервером
-         * клиенту после обработки данных
+         * Register the handler commands sent from the server to the client after processing
+         * Зарегистрировать обработчик команды, отправленной сервером клиенту после обработки данных
          * @param string name
          * @param function action
          */
@@ -56,15 +63,18 @@ PrettyForms = new function () {
         };
     };
 
+    // Class facilities to validate the form
     // Класс для валидации объектов формы
     this.Validator = new function () {
+        // All validation rules set in the hash, by key will be the name of a validator, the value - the object validator.
         // Все правила валидации засунем в хеш, ключём будет название валидатора, значением - объект валидатор.
         this.validation_rules = {};
 
+        // Validation Rules
+        // The validator returns TRUE, if the no error
         // Правила валидации
         // Валидаторы возвращают TRUE, если нет ошибок
 
-        // Валидатор, проверяющий элемент на "не пусто"
         this.validation_rules['notempty'] = function (el, val) {
             if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
                 return PrettyForms.form_container.find('input[name="' + el.attr('name') + '"]:checked').length > 0;
@@ -73,17 +83,16 @@ PrettyForms = new function () {
             }
         };
 
-        // Валидатор проверяющий минимальное кол-во символов в элементе.
         this.validation_rules['minlength'] = function (el, val, length) {
             return val.toString().length >= length;
         };
 
-        // Валидатор проверяющий максимальное кол-во символов в элементе.
         this.validation_rules['maxlength'] = function (el, val, length) {
             return val.toString().length <= length;
         };
 
         /*
+         Checks the domain name into the input box can take multiple parameters separated by commas
          Проверяет наличие доменного имени в поле ввода, может принимать несколько параметров через запятую.
          domains="http://vk.com, http://vkontakte.ru"
          */
@@ -99,14 +108,12 @@ PrettyForms = new function () {
             return false;
         };
 
-        // Валидатор, проверяющий что бы поле содержало только цифры
         this.validation_rules['isnumeric'] = function (el, val) {
             if (val == '' || val == '(an empty string)')
                 return true;
             return /^[0-9]+$/.test(val);
         };
 
-        // Проверяет корректность введённого емейла.
         this.validation_rules['isemail'] = function (el, val) {
             if (val == '' || val == '(an empty string)')
                 return true;
@@ -155,16 +162,20 @@ PrettyForms = new function () {
 
         this.validation_rules['passretry'] = function (el, val, password_input_name) {
             if (typeof (password_input_name) === 'undefined') {
-                password_input_name = 'password'; // По умолчанию осовной инпут с паролем называется "password"
+                password_input_name = 'password'; // By default, the main INPUT password called "password" | По умолчанию осовной инпут с паролем называется "password"
             }
             return val === PrettyForms.form_container.find('input[name="' + password_input_name + '"]').val();
         };
 
+        // Check that checkbox-item is checked, or on one of the elements with the same name
         // Проверить, что на checkbox-элементе стоит галочка, или же на одном из элементов с подобным именем
         this.validation_rules['checked'] = function (el, val) {
             if (el.attr('name').indexOf('[]') === -1) {
                 return el.is(':checked');
             } else {
+                // If this checkbox array, therefore, among the elements can be labeled with another element.
+                // Let's try to look for marked elements on the page of the same name.
+                // If we find - we will find it labeled.            
                 // Если это чекбокс-массив, то следовательно, среди элементов может быть помеченным другой элемент.
                 // Попробуем поискать помеченные элементы на странице такого же названия.
                 // Если найдем - будем считать его помеченным.
@@ -173,16 +184,18 @@ PrettyForms = new function () {
         };
 
         /**
+         * Add a specific validator
          * Добавить определённый валидатор
-         * @param string rule_name Название правила валидации
-         * @param function validator_func Функция валидации
-         * @param string error_message Сообщение об ошибке, если валидация провалилась
+         * @param string rule_name The name of the validation rules | Название правила валидации
+         * @param function validator_func Validation function | Функция валидации
+         * @param string error_message The error message if validation fails | Сообщение об ошибке, если валидация провалилась
          */
         this.setValidator = function(rule_name, error_message, validator_func) {
             this.validation_rules[rule_name] = validator_func;
             PrettyForms.messages.rules[rule_name] = error_message;
         };
 
+        // Return the item that is marked as invalid, and the user sees. Not always is the original INPUT.
         // Вернуть тот элемент, который будет помечен как ошибочный и который видит пользователь.
         // Не всегда это оригинальный инпут.
         this.getMarkingElement = function(el) {
@@ -201,12 +214,15 @@ PrettyForms = new function () {
             return el;
         };
 
+        // Returns the container element errors. If the container is not found,
+        // it will be created immediately after the element
         // Возвращает контейнер с ошибками элемента. Если контейнер не найден,
         // он будет создан сразу после элемента
         this.getElementErrorsContainer = function(el) {
             var element_name = el.attr('name');
             var current_el = el.get(0);
-
+                
+            // If the specified object - it is an array, it will have to begin to calculate its number
             // Если указанный объект - это массив, то придётся для начала вычислить его номер
             if (element_name.indexOf('[') !== -1) {
                 PrettyForms.form_container.find('[name="'+element_name+'"]').map(function(num) {
@@ -226,6 +242,7 @@ PrettyForms = new function () {
                     el = input_group;
                 }
 
+                // If the container was not found errors on a page, add it
                 // Если контейнер для ошибок не был найден на странице, добавим его
                 el.after(PrettyForms.templates.element_validations_container.replace('{%}', element_name));
                 el_errors_container = PrettyForms.form_container.find('#validation-error-' + element_name);
@@ -233,11 +250,13 @@ PrettyForms = new function () {
             return el_errors_container;
         };
 
+        // We mark the item as checked (delete error messages)
         // Пометим элемент как проверенный (удалим все сообщения об ошибках)
         this.markElementAsChecked = function(el) {
             var el_errors_container = this.getElementErrorsContainer(el);
             el_errors_container.hide();
 
+            // If INPUT is within .form-group, we will work with him
             // Если инпут находится внутри .form-group, будем работать с ним
             var el_form_group = el.closest('.form-group');
             if (el_form_group.length !== 0) {
@@ -252,6 +271,8 @@ PrettyForms = new function () {
                 this.getMarkingElement(el).removeClass('prettyforms-validation-error');
             }
         };
+        
+        // Mark an item as containing an error
         // Пометим элемент как содержащий ошибку
         this.markElementAsErroneous = function(el,error_messages,server_error) {
             var el_errors_container = this.getElementErrorsContainer(el);
@@ -261,6 +282,7 @@ PrettyForms = new function () {
                 el.addClass('validation-server-error');
             }
 
+            // If INPUT is within .form-group, we will work with him. Otherwise, add a class .prettyforms-validation-error
             // Если инпут находится внутри .form-group, будем работать с ним. Иначе добавим класс .prettyforms-validation-error
             var el_form_group = el.closest('.form-group');
             if (el_form_group.length !== 0) {
@@ -282,18 +304,19 @@ PrettyForms = new function () {
 
         this.validate = function (el) {
 
+            // The function of direct verification element
             // Функция непосредственной проверки элемента
             var checkElement = function (el) {
                 var element_validation_rules = el.attr('data-validation').split(';');
                 var element_rules_texts = '';
                 var isError = false;
 
-                // Перебираем все атрибуты валидации, прописанные к элементу
                 for (var i in element_validation_rules) {
                     var el_validation_rule_name = element_validation_rules[i].toString().trim();
                     
                     el_validation_rule_param = undefined;
 
+                    // Try to get additional validation parameters
                     // Пробуем получить дополнительные параметры валидации
                     if (el_validation_rule_name.match(':')) {
                         var el_validation_rule_param = el_validation_rule_name.split(':');
@@ -301,16 +324,19 @@ PrettyForms = new function () {
                         el_validation_rule_param = el_validation_rule_param[1].toString().trim();
                     }
                     
+                    // We reach the validator object by its name and check them object.
                     // Достаём объект-валидатор по его названию и проверяем им объект.
                     var rule = PrettyForms.Validator.validation_rules[el_validation_rule_name];
                     if (typeof (rule) !== 'undefined') {
                         var element_value = el.val();
 
+                        // If it is a large text entry field, and it is attached to the editor CKEditor, it'll take the instance data
                         // Если это поле ввода большого текста, и к нему прикреплен редактор CKEditor, заберём данные его инстанс
                         if (el.get(0).tagName === 'TEXTAREA' && typeof (CKEDITOR) != 'undefined' && CKEDITOR.instances[el.attr('name')]) {
                             element_value = CKEDITOR.instances[el.attr('name')].getData();
                         }
 
+                        // REMEMBER! VALIDATOR returns TRUE IF THESE validity
                         // ПОМНИ! VALIDATOR ВЕРНЁТ TRUE ЕСЛИ ДАННЫЕ ВАЛИДНЫ
                         var el_validation_result = rule(el, element_value, el_validation_rule_param);
                         if (el_validation_result === false) {
@@ -329,6 +355,7 @@ PrettyForms = new function () {
                 }
             };
 
+            // If it is a hidden element, which does not apply a JS-component, like a library, or Chosen, or CKEditor'a - not to check his
             // Если это скрытый элемент, к которому не применен некий JS-компонент, вроде плагина Chosen или CKEditor'а -  то не проверять его
             if (!el.is(':visible')
                     && !el.next().hasClass('chosen-container')
@@ -337,25 +364,30 @@ PrettyForms = new function () {
                 return true;
             }
 
+            // Object does not have validation rules - there is nothing to check
             // У объекта нет правил валидации - нечего проверять
             if (!el.attr('data-validation')) {
                 return true;
             }
 
-            // Если элемент имеет данный класс, значит сервер сообщил об ошибке на нём.
-            // Отключим проверку этого элемента.
+            // If an item has the class, the server reported an error on it. Disable checking this item.
+            // Если элемент имеет данный класс, значит сервер сообщил об ошибке на нём. Отключим проверку этого элемента.
             if (el.hasClass('validation-server-error')) {
                 return false;
             }
 
+            // Actually, the verification element
             // Собственно, сама проверка элемента
             var isValid = checkElement(el);
 
+            // The element is checked, no errors
             // Элемент проверен, ошибок нет
             if (isValid === true) {
                 PrettyForms.Validator.markElementAsChecked(el);
                 return true;
             } else {
+                // During the validation of any errors,
+                // Mark an item in red and generate small animation
                 // Во время валидации элемента возникли ошибки,
                 // Пометим элемент красным и сгенерируем небольшую анимацию
                 PrettyForms.Validator.markElementAsErroneous(el,isValid);
@@ -365,6 +397,7 @@ PrettyForms = new function () {
     };
     this.validation_errors_container = null;
 
+    // Collect data from said container, simultaneously checking them all validator
     // Собрать данные из указанного контейнера, попутно проверив всех их валидатором
     this.getInputData = function (inputs_container) {
         if (typeof (inputs_container) !== 'undefined' && inputs_container !== '') {
@@ -376,20 +409,20 @@ PrettyForms = new function () {
                 var form_element = $(this),
                         element_value = undefined;
 
-                // Имя есть - обрабатываем.
                 if (form_element.attr('name') != undefined && form_element.attr('data-dontsend') !== 'true') {
 
                     if (!PrettyForms.Validator.validate(form_element)) {
                         if (form_valid) {
+                            // We focus on the first wrong element
                             // Сфокусируемся на первом ошибочном элементе
                             PrettyForms.Validator.getMarkingElement(form_element).focus();
                         }
                         form_valid = false;
                     }
 
+                    // If the name is [] then we send the server array
                     // Если имя имеет [] то шлём серверу массив.
                     if (form_element.attr('name').indexOf('[]') !== -1) {
-                        // Если массив для хранения выбранных елементов не создан - создадим его.
                         if (typeof (form_values[form_element.attr('name')]) === 'undefined') {
                             form_values[form_element.attr('name')] = [];
                         }
@@ -401,6 +434,7 @@ PrettyForms = new function () {
                         element_value = form_element.val();
                     }
 
+                    // If this textarea, and it is attached editor - get the value of the element through the instance of CKEditor
                     // Если это textarea и к ней прикреплен редактор - получим значение элемента через инстанс CKEditor'а
                     if (form_element.get(0).tagName === 'TEXTAREA' && typeof (CKEDITOR) !== 'undefined' && CKEDITOR.instances[form_element.attr('name')]) {
                         element_value = CKEDITOR.instances[form_element.attr('name')].getData();
@@ -422,35 +456,42 @@ PrettyForms = new function () {
         }
     };
 
+    // Pull out all the INPUT of said container
     // Вытащить все инпуты из указанного контейнера
     this.getInputsList = function (inputs_container) {
         return $(inputs_container).find('input[type="text"], input[type="email"], input[type="password"], input[type="hidden"], input[type="checkbox"], input[type="radio"], select, textarea');
     };
 
+    // Set container to the current form of the a certain element
     // Установить в качетве контейнера текущей формы определённый элемент
     this.setFormContainer = function(element) {
         this.form_container = $(element);
     };
 
     /**
+     * Send data to a URL and process the response
      * Отправить данные на определенный URL и обработать ответ
      * @param string url
      * @param object mass
-     * @param object input_container (необязательно) контейнер, в котором необходимо будет очистить все инпуты от введенных данных
+     * @param object input_container (optionally) a container in which you will clear all data entered by INPUT (необязательно) контейнер, в котором необходимо будет очистить все инпуты от введенных данных
      */
     this.sendData = function (url, mass, input_container_for_clear, input) {
+        // Deny clicking repeatedly on our button while sending the data goes
         // Запретим кликать повторно на нашу кнопочку, пока идёт отправка данных
         input.attr('disabled', 'disabled').addClass('disabled');
         setTimeout(function(){
+            // After 10 seconds, then switch it back to avoid unforeseen situations
             // Через 10 секунд включим её обратно во избежание непредвиденных ситуаций
             input.removeClass('disabled').attr('disabled',null);
         },10000);
 
+        // Later, we include our back button and give the opportunity to click on it
         // Позже включим обратно нашу кнопочку и дадим возможность кликать на неё
         var enableInput = function () {
             input.removeClass('disabled').attr('disabled', null);
         };
 
+        // Clear all of the data in the specified INPUT container
         // Очистить от данных все инпуты в указанном контейнере
         var clearInputData = function (inputs_container) {
             PrettyForms.getInputsList(inputs_container).map(function () {
@@ -461,6 +502,7 @@ PrettyForms = new function () {
             });
         };
 
+        // We check that all elements in the array are true
         // Проверим, что все элементы в массиве равны true
         var all_true = function (arr) {
             var success = true;
@@ -472,16 +514,17 @@ PrettyForms = new function () {
             return success;
         };
 
-        // Отошлем массив и обработаем ответ
         $.ajax({
             type: "POST",
             url: url,
             data: mass,
             dataType: 'json',
             success: function (data) {
+                // Including reverse button to send data
                 // Включим обратно кнопку отправки данных
                 enableInput();
 
+                // If the server replied, try the command received from him
                 // Если сервер ответил, попытаемся выполнить полученные от него команды
                 $.each(data, function(command_name, command_params) {
                     try {
@@ -491,10 +534,9 @@ PrettyForms = new function () {
                     }
                 });
 
-                var need_clear_inputs = []; // Массив условий, при которых необходимо очистить элементы формы от данных
-                need_clear_inputs.push(! data.hasOwnProperty('validation_errors')); // Это не ответ о непройденной валидации отправленных данных
-                //need_clear_inputs.push(typeof(data[0].data) !== 'string' || data[0].data.indexOf('Navigation.updateCoreInfo(true)') === -1); // Это не ошибка ключа безопасности
-                need_clear_inputs.push(input_container_for_clear !== false); // Контейнер для инпутов был указан
+                var need_clear_inputs = [];
+                need_clear_inputs.push(! data.hasOwnProperty('validation_errors')); // This is not the answer to validate the data sent unclimbed | Это не ответ о непройденной валидации отправленных данных
+                need_clear_inputs.push(input_container_for_clear !== false); // The container was specified for INPUT | Контейнер для инпутов был указан
 
                 if (all_true(need_clear_inputs)) {
                     clearInputData(input_container_for_clear);
@@ -502,11 +544,10 @@ PrettyForms = new function () {
             },
             error: function (data, status, e) {
                 
-                // Включим кнопку и отобразим сообщение об ошибке
                 enableInput();
                 
                 if (data.status === 422) {
-                    // Ошибка валидации
+                    // Validation error | Ошибка валидации
                     PrettyForms.Commands.execute('validation_errors', data);
                 } else {
                     PrettyForms.Commands.execute('validation_errors', PrettyForms.messages.server_error);
@@ -517,17 +558,14 @@ PrettyForms = new function () {
 };
 
 $(document).ready(function () {
-    // При наборе текста автоматически производить валидацию
-    // по-умолчанию отключено, чтобы не раздражать пользователя
-//    $('body').on('change keyup', 'input[data-validation], select[data-validation], textarea[data-validation]', function () {
-//        PrettyForms.Validator.validate($(this));
-//    });
 
+    // When the form is submitted automatically to validate the data in it
     // При отправке формы автоматически производить валидацию данных в ней
     $('body').on('submit', 'form', function () {
         PrettyForms.setFormContainer($(this));
         var form_values = PrettyForms.getInputData(this);
         if (form_values === false) {
+            // If during the data collection errors were found validation prevent sending form
             // Если во время сбора данных были обнаружены ошибки валидации, предотвратим отправку формы
             PrettyForms.validation_errors_container = $(this).find('.validation-errors');
             PrettyForms.Commands.execute('validation_errors');
@@ -537,6 +575,7 @@ $(document).ready(function () {
         }
     });
 
+    // We capture clicks on the elements with the class .senddata
     // Перехватим клики на элементы с классом .senddata
     $('body').on('click', '.senddata', function () {
         var clicked_element = $(this);
@@ -545,7 +584,6 @@ $(document).ready(function () {
             link = clicked_element.attr('data-link');
 
         if (typeof (link) === 'undefined') {
-            // Попробуем вытащить URL из свойств формы
             var form = clicked_element.closest('form');
             if (form.length > 0) {
                 link = form.attr('action');
@@ -558,10 +596,9 @@ $(document).ready(function () {
 
         var inputs_container = $(clicked_element.attr('data-input'));
         if (inputs_container.length === 0) {
-            // Попробуем найти форму и сделать её в качестве контейнера для сбора инпутов
             inputs_container = clicked_element.closest('form');
         }
-        // Проверим, что элемент, по которому был клик, не отключён через класс или атрибут
+        
         if (!clicked_element.hasClass('disabled') && typeof (clicked_element.attr('disabled')) === 'undefined') {
 
             var execute_action = function() {
@@ -571,13 +608,13 @@ $(document).ready(function () {
 
                     PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
                     if (PrettyForms.validation_errors_container.length === 0) {
+                        // If the container for validation errors could not be found on the page, add it to the button
                         // Если контейнер для ошибок валидации не был найден на странице, добавим его перед кнопкой
                         clicked_element.before(PrettyForms.templates.form_validation_messages);
                         PrettyForms.validation_errors_container = inputs_container.find('.validation-errors');
                     }
                     PrettyForms.validation_errors_container.html('').hide();
 
-                    // Снимем классы с инпутов, помеченных о том, что в них была найдена ошибка на сервере
                     $(inputs_container).find('.validation-server-error').removeClass('validation-server-error');
 
                     var form_values = PrettyForms.getInputData(inputs_container);
@@ -585,8 +622,6 @@ $(document).ready(function () {
                         PrettyForms.Commands.execute('validation_errors');
                     } else {
                         var clearinputs = false;
-                        // Если в атрибутах кнопки был передан атрибут "data-clearinputs" со значением "true", значит надо
-                        // будет очистить форму после успешного запроса
                         if (clicked_element.attr('data-clearinputs') === 'true') {
                             clearinputs = inputs_container;
                         }
@@ -595,20 +630,22 @@ $(document).ready(function () {
                     }
                 } else {
                     PrettyForms.validation_errors_container = $('');
+                    // If not specified container from which it is necessary to gather information,
+                    // simply send a request to the specified URL and process the response.
+                    // A container as errors just do rodidelsky button element, which was committed by a click.
                     // Если не был указан контейнер, из которого надо собрать информацию,
                     // то просто отправим запрос на указанный URL и обработаем ответ.
+                    // А в качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
+                    // по которой был совершён клик.
 
                     form_values = {};
 
-                    // В качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
-                    // по которой был совершён клик
                     PrettyForms.setFormContainer(clicked_element.parent());
 
                     PrettyForms.sendData(link, form_values, false, clicked_element);
                 }
             };
 
-            // Если есть класс really, сначала удостоверимся, что человек действительно хочет совершить действие
             if (clicked_element.hasClass('really')) {
                 var text = PrettyForms.messages.really;
                 if (clicked_element.attr('data-really-text')) {
@@ -649,13 +686,12 @@ $(document).ready(function () {
         return false;
     });
 
-    // Сервер, вместо ответа об успешном завершении операции,
-    // может послать команду об отображении ошибок валидации. Отобразим их.
     PrettyForms.Commands.registerHandler('validation_errors', function (data) {
         if (PrettyForms.validation_errors_container.length > 0) {
             var html = PrettyForms.messages.fix_and_retry;
             if (typeof(data) !== 'undefined') {
                 if (typeof(data) === 'string') {
+                    // If the error was passed just a string - display it in general container with error messages
                     // Если в качестве ошибки была передана просто строка - отобразим её
                     // в общем контейнере с сообщениями об ошибках
                     PrettyForms.validation_errors_container.html(data).show();
@@ -673,7 +709,6 @@ $(document).ready(function () {
                             });
                             PrettyForms.Validator.markElementAsErroneous(element,element_errors_str,true);
                             if (focused === false) {
-                                // Сфокусируемся на первом ошибочном элементе
                                 PrettyForms.Validator.getMarkingElement(element).focus();
                                 focused = true;
                             }
