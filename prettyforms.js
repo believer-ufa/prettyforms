@@ -161,7 +161,7 @@ PrettyForms = new function () {
             if (typeof (password_input_name) === 'undefined') {
                 password_input_name = 'password'; // По умолчанию осовной инпут с паролем называется "password"
             }
-            return val === $('input[name="' + password_input_name + '"]').val();
+            return val === PrettyForms.form_container.find('input[name="' + password_input_name + '"]').val();
         };
 
         // Проверить, что на checkbox-элементе стоит галочка, или же на одном из элементов с подобным именем
@@ -172,7 +172,7 @@ PrettyForms = new function () {
                 // Если это чекбокс-массив, то следовательно, среди элементов может быть помеченным другой элемент.
                 // Попробуем поискать помеченные элементы на странице такого же названия.
                 // Если найдем - будем считать его помеченным.
-                return ($('input[name="' + el.attr('name') + '"]:checked').length > 0);
+                return (PrettyForms.form_container.find('input[name="' + el.attr('name') + '"]:checked').length > 0);
             }
         };
 
@@ -295,6 +295,8 @@ PrettyForms = new function () {
                 // Перебираем все атрибуты валидации, прописанные к элементу
                 for (var i in element_validation_rules) {
                     var el_validation_rule_name = element_validation_rules[i].toString().trim();
+                    
+                    el_validation_rule_param = undefined;
 
                     // Пробуем получить дополнительные параметры валидации
                     if (el_validation_rule_name.match(':')) {
@@ -302,7 +304,7 @@ PrettyForms = new function () {
                         el_validation_rule_name = el_validation_rule_param[0].toString().trim();
                         el_validation_rule_param = el_validation_rule_param[1].toString().trim();
                     }
-
+                    
                     // Достаём объект-валидатор по его названию и проверяем им объект.
                     var rule = PrettyForms.Validator.validation_rules[el_validation_rule_name];
                     if (typeof (rule) !== 'undefined') {
@@ -485,16 +487,16 @@ PrettyForms = new function () {
                 enableInput();
 
                 // Если сервер ответил, попытаемся выполнить полученные от него команды
-                data.map(function (command) {
+                $.each(data, function(command_name, command_params) {
                     try {
-                        PrettyForms.Commands.execute(command.type, command.data);
+                        PrettyForms.Commands.execute(command_name, command_params);
                     } catch (e) {
                         console.log('error in handling message', e);
                     }
                 });
 
                 var need_clear_inputs = []; // Массив условий, при которых необходимо очистить элементы формы от данных
-                need_clear_inputs.push(data[0].type !== 'validation_errors'); // Это не ответ о непройденной валидации отправленных данных
+                need_clear_inputs.push(! data.hasOwnProperty('validation_errors')); // Это не ответ о непройденной валидации отправленных данных
                 //need_clear_inputs.push(typeof(data[0].data) !== 'string' || data[0].data.indexOf('Navigation.updateCoreInfo(true)') === -1); // Это не ошибка ключа безопасности
                 need_clear_inputs.push(input_container_for_clear !== false); // Контейнер для инпутов был указан
 
@@ -503,9 +505,16 @@ PrettyForms = new function () {
                 }
             },
             error: function (data, status, e) {
+                
                 // Включим кнопку и отобразим сообщение об ошибке
                 enableInput();
-                PrettyForms.Commands.execute('validation_errors', PrettyForms.messages.server_error);
+                
+                if (data.status === 422) {
+                    // Ошибка валидации
+                    PrettyForms.Commands.execute('validation_errors', data);
+                } else {
+                    PrettyForms.Commands.execute('validation_errors', PrettyForms.messages.server_error);
+                }
             }
         });
     };
@@ -661,21 +670,22 @@ $(document).ready(function () {
             var html = PrettyForms.messages.fix_and_retry;
             if (typeof(data) !== 'undefined') {
                 if (typeof(data) === 'string') {
-                    // Если в качестве ошибки была передана просто строка - отобразим её в общем контейнере
-                    // с сообщениями об ошибках
+                    // Если в качестве ошибки была передана просто строка - отобразим её
+                    // в общем контейнере с сообщениями об ошибках
                     PrettyForms.validation_errors_container.html(data).show();
                 } else {
                     var focused = false;
-                    data.map(function (el) {
-                        var element = $('[name="'+el.field+'"]');
+                    
+                    $.each(data.responseJSON, function(input_name, errors) {
+                        var element = PrettyForms.form_container.find('[name="'+input_name+'"]');
                         if (element.length > 0) {
-                            var element_errors = '';
-                            el.errors.map(function(error){
+                            var element_errors_str = '';
+                            errors.map(function(error) {
                                 var error_text = PrettyForms.templates.element_validation_message.replace('{%}', error);
-                                element_errors += error_text;
+                                element_errors_str += error_text;
                                 html += error_text;
                             });
-                            PrettyForms.Validator.markElementAsErroneous(element,element_errors,true);
+                            PrettyForms.Validator.markElementAsErroneous(element,element_errors_str,true);
                             if (focused === false) {
                                 // Сфокусируемся на первом ошибочном элементе
                                 PrettyForms.Validator.getMarkingElement(element).focus();
@@ -683,6 +693,7 @@ $(document).ready(function () {
                             }
                         }
                     });
+                    
                     PrettyForms.validation_errors_container.html(html).show();
                 }
             } else {
@@ -697,6 +708,11 @@ $(document).ready(function () {
             link = document.location.href;
         }
         document.location.href = link;
+    });
+
+    // Refresh page
+    PrettyForms.Commands.registerHandler('refresh', function () {
+        document.location.href = document.location.href;
     });
 
     PrettyForms.Commands.registerHandler('nothing', function () {
