@@ -1,10 +1,6 @@
 // Класс для работы с формами сайта: валидация элементов формы, отправка данных на сервер и выполнение команд, полученных от сервера
 PrettyForms = new function () {
 
-    // Название параметра токена, который будет передан на сервер, и значение токена
-    this.token_name = '';
-    this.token_value = '';
-
     // HTML-шаблоны, используемые библиотекой
     this.templates = {
         // Контейнер, в который будут помещены сообщения об ошибках, относящиеся к определённому элементу
@@ -542,7 +538,7 @@ $(document).ready(function () {
     });
 
     // Перехватим клики на элементы с классом .senddata
-    $('body').on('click', '.senddata,.senddata-token', function () {
+    $('body').on('click', '.senddata', function () {
         var clicked_element = $(this);
         var link = clicked_element.attr('href');
         if (typeof (link) === 'undefined' || link === '#')
@@ -595,11 +591,6 @@ $(document).ready(function () {
                             clearinputs = inputs_container;
                         }
 
-                        // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен
-                        if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
-                            form_values[PrettyForms.token_name] = PrettyForms.token_value;
-                        }
-
                         PrettyForms.sendData(link, form_values, clearinputs, clicked_element);
                     }
                 } else {
@@ -608,11 +599,6 @@ $(document).ready(function () {
                     // то просто отправим запрос на указанный URL и обработаем ответ.
 
                     form_values = {};
-
-                    // Если был указан токен безопасности, и нажатая кнопка имеет класс .senddata-token - отправим вместе с запросом токен безопасности
-                    if (clicked_element.hasClass('senddata-token') && PrettyForms.token_name && PrettyForms.token_value) {
-                        form_values[PrettyForms.token_name] = PrettyForms.token_value;
-                    }
 
                     // В качестве контейнера ошибок просто сделаем родидельский элемент кнопки,
                     // по которой был совершён клик
