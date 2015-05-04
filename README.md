@@ -26,7 +26,7 @@ That is, the server always meet a certain set of commands for the browser, and t
 
 ## Laravel 5
 
-For Laravel, a special component that greatly expands its features and uses for client validation of the library. For more details you can read about it on the [page of this component](https://github.com/believer-ufa/prettyforms-laravel).
+For Laravel, a special component that greatly expands its features and uses for client validation the current library. For more details you can read about it on the [page of this component](https://github.com/believer-ufa/prettyforms-laravel).
 
 ## Example of use
 
