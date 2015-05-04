@@ -123,7 +123,7 @@ The library also allows you to add to the fields some additional attributes that
 | data-dontsend="true"  | Disables verification of the field and sending it to the server | No |
 
 
-## Attributes of "send form" button
+## Attributes of submit button
 Button, clicking on which generates a sending form can also have several additional attributes that explain where data should be sent from which DOM-element has to be collected, and some other forms of behavior characteristics. If the attributes have not been specified, the data will be taken from your form.
 
 | Attribute | Description | Required? |
