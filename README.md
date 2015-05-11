@@ -259,10 +259,6 @@ One of the frequent problems - it is difficult to obtain the contents of those f
 
 [Скринкаст работы библиотеки](demo.gif)
 
-####Статьи на хабрахабре:
-1. [PrettyForms — простая клиент-серверная валидация форм](http://habrahabr.ru/post/243637/)
-2. [Динамичное веб-приложение на основе Laravel, PrettyForms и Backbone.js](http://habrahabr.ru/post/243925/)
-
 ## Установка
 Вы можете скачать zip-архив с библиотекой, либо установить её через bower:
 ```shell
