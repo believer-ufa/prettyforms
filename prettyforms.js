@@ -1,6 +1,16 @@
 // Class for working with forms on site: validation of a form, sending data to the server and execute commands received from the server
 // Класс для работы с формами сайта: валидация элементов формы, отправка данных на сервер и выполнение команд, полученных от сервера
 PrettyForms = new function () {
+    
+    // Маленькая функция для проверки на присутствие подключённого к элементу плагина CKEditor
+    var checkForCkEditor = function(element) {
+        var el_id = element.attr('id');
+        if (el_id && typeof(CKEDITOR) !== 'undefined')
+        {
+            return (CKEDITOR.instances[el_id]) ? true : false;
+        }
+    };
+
 
     // HTML-templates used by library
     // HTML-шаблоны, используемые библиотекой
@@ -79,7 +89,9 @@ PrettyForms = new function () {
             if (el.attr('type') === 'radio' || el.attr('type') === 'checkbox') {
                 return PrettyForms.form_container.find('input[name="' + el.attr('name') + '"]:checked').length > 0;
             } else {
-                return val == null ? true : val.toString().length != 0;
+                return val === null
+                    ? false
+                    : val.toString().length !== 0;
             }
         };
 
@@ -198,13 +210,23 @@ PrettyForms = new function () {
         // Return the item that is marked as invalid, and the user sees. Not always is the original INPUT.
         // Вернуть тот элемент, который будет помечен как ошибочный и который видит пользователь.
         // Не всегда это оригинальный инпут.
-        this.getMarkingElement = function(el) {
-            if (el.get(0).tagName === 'SELECT' && $(el).next().hasClass('chosen-container')) {
-                el = el.next();
+        this.getMarkingElement = function(el)
+        {
+            if (el.get(0).tagName === 'SELECT')
+            {
+                if ($(el).data('select2'))
+                {
+                    return $(el).data('select2').$container;
+                }
+                
+                if ($(el).data('chosen'))
+                {
+                    return $(el).data('chosen').container;
+                }
             }
 
-            if (el.get(0).tagName === 'TEXTAREA' && $(el).next().hasClass('cke')) {
-                el = el.next();
+            if (el.get(0).tagName === 'TEXTAREA' && checkForCkEditor(el)) {
+                el = $(CKEDITOR.instances[$(el).attr('id')].container.$);
             }
 
             if (el.attr('type') === 'checkbox' || el.attr('type') === 'radio') {
@@ -332,8 +354,9 @@ PrettyForms = new function () {
 
                         // If it is a large text entry field, and it is attached to the editor CKEditor, it'll take the instance data
                         // Если это поле ввода большого текста, и к нему прикреплен редактор CKEditor, заберём данные его инстанс
-                        if (el.get(0).tagName === 'TEXTAREA' && typeof (CKEDITOR) != 'undefined' && CKEDITOR.instances[el.attr('name')]) {
-                            element_value = CKEDITOR.instances[el.attr('name')].getData();
+                        if (el.get(0).tagName === 'TEXTAREA' && checkForCkEditor(el))
+                        {
+                            element_value = CKEDITOR.instances[el.attr('id')].getData();
                         }
 
                         // REMEMBER! VALIDATOR returns TRUE IF THESE validity
@@ -358,8 +381,10 @@ PrettyForms = new function () {
             // If it is a hidden element, which does not apply a JS-component, like a library, or Chosen, or CKEditor'a - not to check his
             // Если это скрытый элемент, к которому не применен некий JS-компонент, вроде плагина Chosen или CKEditor'а -  то не проверять его
             if (!el.is(':visible')
-                    && !el.next().hasClass('chosen-container')
-                    && !el.next().hasClass('cke')) {
+                    && !el.data('chosen')
+                    && !el.data('select2')
+                    && !checkForCkEditor(el)
+            ) {
 
                 return true;
             }
@@ -400,9 +425,12 @@ PrettyForms = new function () {
     // Collect data from said container, simultaneously checking them all validator
     // Собрать данные из указанного контейнера, попутно проверив всех их валидатором
     this.getInputData = function (inputs_container) {
+        
+        this.setFormContainer(inputs_container);
+        
         if (typeof (inputs_container) !== 'undefined' && inputs_container !== '') {
             var form_values = {},
-                    form_elements = this.getInputsList(inputs_container);
+                form_elements = this.getInputsList(inputs_container);
 
             var form_valid = true;
             form_elements.each(function (el) {
@@ -562,7 +590,6 @@ $(document).ready(function () {
     // When the form is submitted automatically to validate the data in it
     // При отправке формы автоматически производить валидацию данных в ней
     $('body').on('submit', 'form', function () {
-        PrettyForms.setFormContainer($(this));
         var form_values = PrettyForms.getInputData(this);
         if (form_values === false) {
             // If during the data collection errors were found validation prevent sending form
