@@ -1,7 +1,7 @@
 // Class for working with forms on site: validation of a form, sending data to the server and execute commands received from the server
 // Класс для работы с формами сайта: валидация элементов формы, отправка данных на сервер и выполнение команд, полученных от сервера
 PrettyForms = new function () {
-    
+
     // Маленькая функция для проверки на присутствие подключённого к элементу плагина CKEditor
     var checkForCkEditor = function(element) {
         var el_id = element.attr('id');
@@ -187,7 +187,7 @@ PrettyForms = new function () {
             } else {
                 // If this checkbox array, therefore, among the elements can be labeled with another element.
                 // Let's try to look for marked elements on the page of the same name.
-                // If we find - we will find it labeled.            
+                // If we find - we will find it labeled.
                 // Если это чекбокс-массив, то следовательно, среди элементов может быть помеченным другой элемент.
                 // Попробуем поискать помеченные элементы на странице такого же названия.
                 // Если найдем - будем считать его помеченным.
@@ -218,7 +218,7 @@ PrettyForms = new function () {
                 {
                     return $(el).data('select2').$container;
                 }
-                
+
                 if ($(el).data('chosen'))
                 {
                     return $(el).data('chosen').container;
@@ -243,7 +243,7 @@ PrettyForms = new function () {
         this.getElementErrorsContainer = function(el) {
             var element_name = el.attr('name');
             var current_el = el.get(0);
-                
+
             // If the specified object - it is an array, it will have to begin to calculate its number
             // Если указанный объект - это массив, то придётся для начала вычислить его номер
             if (element_name.indexOf('[') !== -1) {
@@ -293,7 +293,7 @@ PrettyForms = new function () {
                 this.getMarkingElement(el).removeClass('prettyforms-validation-error');
             }
         };
-        
+
         // Mark an item as containing an error
         // Пометим элемент как содержащий ошибку
         this.markElementAsErroneous = function(el,error_messages,server_error) {
@@ -335,7 +335,7 @@ PrettyForms = new function () {
 
                 for (var i in element_validation_rules) {
                     var el_validation_rule_name = element_validation_rules[i].toString().trim();
-                    
+
                     el_validation_rule_param = undefined;
 
                     // Try to get additional validation parameters
@@ -345,7 +345,7 @@ PrettyForms = new function () {
                         el_validation_rule_name = el_validation_rule_param[0].toString().trim();
                         el_validation_rule_param = el_validation_rule_param[1].toString().trim();
                     }
-                    
+
                     // We reach the validator object by its name and check them object.
                     // Достаём объект-валидатор по его названию и проверяем им объект.
                     var rule = PrettyForms.Validator.validation_rules[el_validation_rule_name];
@@ -398,7 +398,7 @@ PrettyForms = new function () {
             // If an item has the class, the server reported an error on it. Disable checking this item.
             // Если элемент имеет данный класс, значит сервер сообщил об ошибке на нём. Отключим проверку этого элемента.
             if (el.hasClass('validation-server-error')) {
-                return false;
+                return true;
             }
 
             // Actually, the verification element
@@ -425,9 +425,9 @@ PrettyForms = new function () {
     // Collect data from said container, simultaneously checking them all validator
     // Собрать данные из указанного контейнера, попутно проверив всех их валидатором
     this.getInputData = function (inputs_container) {
-        
+
         this.setFormContainer(inputs_container);
-        
+
         if (typeof (inputs_container) !== 'undefined' && inputs_container !== '') {
             var form_values = {},
                 form_elements = this.getInputsList(inputs_container);
@@ -571,9 +571,9 @@ PrettyForms = new function () {
                 }
             },
             error: function (data, status, e) {
-                
+
                 enableInput();
-                
+
                 if (data.status === 422) {
                     // Validation error | Ошибка валидации
                     PrettyForms.Commands.execute('validation_errors', data);
@@ -625,7 +625,7 @@ $(document).ready(function () {
         if (inputs_container.length === 0) {
             inputs_container = clicked_element.closest('form');
         }
-        
+
         if (!clicked_element.hasClass('disabled') && typeof (clicked_element.attr('disabled')) === 'undefined') {
 
             var execute_action = function() {
@@ -724,7 +724,7 @@ $(document).ready(function () {
                     PrettyForms.validation_errors_container.html(data).show();
                 } else {
                     var focused = false;
-                    
+
                     $.each(data.responseJSON, function(input_name, errors) {
                         var element = PrettyForms.form_container.find('[name="'+input_name+'"]');
                         if (element.length > 0) {
@@ -741,7 +741,7 @@ $(document).ready(function () {
                             }
                         }
                     });
-                    
+
                     PrettyForms.validation_errors_container.html(html).show();
                 }
             } else {
