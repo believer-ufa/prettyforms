@@ -246,8 +246,6 @@ You can also place the container by hand in the place form where you will be mos
 
 ## Known Issues
 
-Currently, one of the problems - the inability to collect the INPUT for the types that have been described [in the standards HTML5](http://www.w3schools.com/html/html_form_input_types.asp), although their support can be easily added to the library but at the moment I just have not encountered this need.
-
 One of the frequent problems - it is difficult to obtain the contents of those fields, which applied some additional plug-like or Chosen CKEDitor. Specifically, for these two plug-ins in the library has built-in support, and she gets the correct values of the fields associated with these plug-ins, but in the world there are thousands of other plug-ins, with which it can work properly. Keep in mind when using this library.
 
 #PrettyForms. Русская документация
@@ -495,8 +493,6 @@ PrettyForms изначально заточена под сайты, созда�
 Вы также можете разместить этот контейнер вручную в том месте формы, в котором вам будет наиболее удобно. Чтобы библиотека нашла ваш контейнер общих ошибок, добавьте ему класс `.validation-errors`.
 
 ## Известные проблемы
-
-В данный момент, одна из проблем - это невозможность собирать инпуты с теми типами, которые были описаны [в стандартах HTML5](http://www.w3schools.com/html/html_form_input_types.asp), хотя их поддержку можно легко добавить в библиотеку, но в данный момент у меня просто не возникало данной необходимости.
 
 Одна из частых проблем - это трудности с получением содержимого из тех полей, к которым применён какой-то дополнительный плагин, вроде Chosen или CKEDitor. Конкретно для двух этих плагинов в библиотеке уже встроена поддержка, и она корректно получает значения из полей, связанных с данными плагинами, но в мире существуют тысячи других плагинов, с которыми она может работать некорректно. Следует учитывать это при использовании библиотеки.
 

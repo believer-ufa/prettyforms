@@ -487,7 +487,7 @@ PrettyForms = new function () {
     // Pull out all the INPUT of said container
     // Вытащить все инпуты из указанного контейнера
     this.getInputsList = function (inputs_container) {
-        return $(inputs_container).find('input[type="text"], input[type="email"], input[type="password"], input[type="hidden"], input[type="checkbox"], input[type="radio"], select, textarea');
+        return $(inputs_container).find('input, select, textarea');
     };
 
     // Set container to the current form of the a certain element
