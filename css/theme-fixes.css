@@ -23,24 +23,35 @@ pre {
     margin: 1px 0 24px 0;
 }
 
-ol, li {
+.wy-nav-content ol, .wy-nav-content ul {
     list-style-type: decimal;
+    margin: 20px 0;
 }
 
-table {
+.wy-nav-content ol li {
+    list-style-type: decimal;
+    margin-left: 30px;
+}
+
+.wy-nav-content ul li {
+    list-style-type: circle;
+    margin-left: 30px;
+}
+
+.wy-nav-content table {
     margin-bottom: 30px;
 }
 
-table th, table td {
+.wy-nav-content table th, .wy-nav-content table td {
     padding: 6px 13px;
     border: 1px solid #ddd;
 }
 
-table tr {
+.wy-nav-content table tr {
     background-color: #fff;
     border-top: 1px solid #ccc;
 }
 
-table tr:nth-child(2n) {
+.wy-nav-content table tr:nth-child(2n) {
     background-color: #f8f8f8;
 }
