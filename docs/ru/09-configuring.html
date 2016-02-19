@@ -72,8 +72,8 @@
                                 API работы с библиотекой
                             </a>
                         </li>
-                                            <li class="toctree-l1 ">
-                            <a class="reference internal "
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
                                href="http://believer-ufa.github.io/prettyforms/docs/ru/09-configuring.html">
                                 Настройки
                             </a>
@@ -100,10 +100,14 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h2 id="">Настройка</h2>
+<p>PrettyForms изначально заточена под сайты, созданные на основе Twitter Bootstrap, но вы легко можете заменить её шаблоны с сообщениями об ошибках на свои собственные, переопределив три переменных в объекте &quot;PrettyForms.templates&quot;.</p>
+<p>Во время процесса валидации, библиотека автоматически создаст контейнеры для сообщений об ошибках, если они отсутствуют на форме. Для каждого поля, сразу же под ним, будет создан контейнер, на основе шаблона, расположенного в <code>PrettyForms.templates.element_validations_container</code>. На момент написания этой wiki, шаблон имеет следующий вид:</p>
+<pre><code class="language-html">&lt;div style="display:none;margin-top:10px" id="validation-error-{%}" class="alert alert-danger" role="alert"&gt;&lt;/div&gt;</code></pre>
+<p>В этот контейнер будут помещены сообщения об ошибках, если они возникнут во время проверки полей. Вы можете разместить данные поля самостоятельно внутри своей формы, в тех местах, в которых пожелаете, если автоматическая генерация вам не подошла по каким-либо причинам. Просто добавьте подобные контейнеры для каждого поля на форме, с атрибутом <code>id="validation-error-{название_поля}"</code>. Например, если у вас есть на странице <code>&lt;input name="email" /&gt;</code>, то для него можно создать в любом месте контейнер ошибок: <code>&lt;div style="display:none;" id="validation-error-email" class="alert alert-danger" role="alert"&gt;&lt;/div&gt;</code>. Теперь библиотека найдёт ваш контейнер и поместит сообщения об ошибках в него.</p>
+<p>Также, библиотека автоматически сгенерирует контейнер для общих сообщений об ошибках валидации. Он будет размещен сразу же перед кнопкой отправки формы, его шаблон берется из переменной <code>PrettyForms.templates.form_validation_messages</code>. На момент написания вики, шаблон имеет следующий вид:</p>
+<pre><code class="language-html">&lt;div style="margin-bottom:10px" class="validation-errors alert alert-danger"&gt;&lt;/div&gt;</code></pre>
+<p>Вы также можете разместить этот контейнер вручную в том месте формы, в котором вам будет наиболее удобно. Чтобы библиотека нашла ваш контейнер общих ошибок, добавьте ему класс <code>.validation-errors</code>.</p>
                     </div>
 
                     <footer>

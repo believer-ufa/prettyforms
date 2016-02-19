@@ -36,8 +36,8 @@
                                 Алгоритм работы
                             </a>
                         </li>
-                                            <li class="toctree-l1 ">
-                            <a class="reference internal "
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
                                href="http://believer-ufa.github.io/prettyforms/docs/ru/03-example.html">
                                 Пример формы
                             </a>
@@ -100,10 +100,33 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h2 id="-">Пример использования</h2>
+<p>Библиотека автоматически перехватывает любые формы и валидирует в них поля.</p>
+<p>Добавьте атрибуты валидации <code>data-validation=""</code> со списками правил валидации к нужным полям вашей формы.
+При отправке формы, если данные окажутся невалидными, библиотека не даст ей отправиться на сервер.
+Это минимальный функционал библиотеки, без связки с сервером.</p>
+<p>Чтобы библиотека самостоятельно отправляла форму на сервер, просто добавьте к вашей стандартной кнопке отправки формы
+класс <code>senddata</code>, благодаря которому клики по кнопке будут перехвачены и обработаны библиотекой.
+Теперь библиотека не только будет производить клиентскую валидацию, но и станет отвечать за
+отправку данных на сервер и обработку ответа.</p>
+<p>Пример подобной формы:</p>
+<pre><code class="language-html">&lt;form method="POST" action="/register"&gt;
+    &lt;h1&gt;Регистрация&lt;/h1&gt;
+
+    &lt;label&gt;Email&lt;/label&gt;
+    &lt;input type="email" name="email" data-validation="notempty;isemail"&gt;
+
+    &lt;label&gt;Пароль&lt;/label&gt;
+    &lt;input type="password" name="password" data-validation="notempty;minlength:6"&gt;
+
+    &lt;button class="senddata"&gt;Зарегистрироваться&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+<p>Попробуйте подобную форму на деле:</p>
+<form method="POST" action="/register">
+    <label>Email</label>
+    <input type="email" name="email" data-validation="notempty;isemail"><label>Пароль</label>
+    <input type="password" name="password" data-validation="notempty;minlength:6"><br><br><button class="senddata">Зарегистрироваться</button>
+</form>
                     </div>
 
                     <footer>

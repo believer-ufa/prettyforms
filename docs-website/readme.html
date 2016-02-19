@@ -100,10 +100,59 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h1 id="read-the-docs-template-for-couscous">Read The Docs template for Couscous</h1>
+<p><a href="https://readthedocs.org/">Read The Docs</a> builds websites using a Sphinx theme. <a href="https://github.com/snide/sphinx_rtd_theme">That theme</a> is open source and released under the MIT license.</p>
+<p>This project is a port of the Sphinx theme to Couscous.</p>
+<p><img src="screenshot.png" alt="" /></p>
+<h2 id="usage">Usage</h2>
+<p>To use the template, set it up in your <code>couscous.yml</code> configuration file:</p>
+<pre><code class="language-yaml">template:
+    url: https://github.com/CouscousPHP/Template-ReadTheDocs</code></pre>
+<h2 id="configuration">Configuration</h2>
+<p>Here are all the variables you can set in your <code>couscous.yml</code>:</p>
+<pre><code class="language-yaml"># Base URL of the published website
+baseUrl: http://username.github.io/project
+
+# Used to link to the GitHub project
+github:
+    user: myself
+    repo: my-project
+
+title: My project
+subTitle: This is a great project.
+
+# The left menu bar
+menu:
+    items:
+        home:
+            text: FAQ
+            # You can use relative urls
+            relativeUrl: doc/faq.html
+        foo:
+            text: Another link
+            # Or absolute urls
+            absoluteUrl: https://example.com</code></pre>
+<p>Note that the menu items can also contain HTML:</p>
+<pre><code class="language-yaml">home:
+    text: "&lt;i class=\"fa fa-github\"&gt;&lt;/i&gt; FAQ"
+    relativeUrl: doc/faq.html</code></pre>
+<h2 id="menu">Menu</h2>
+<p>To set the current menu item (i.e. highlighted menu item), set the <code>currentMenu</code>
+key in the Markdown files:</p>
+<pre><code class="language-markdown">---
+currentMenu: home
+---
+
+# Welcome</code></pre>
+<h2 id="todo">TODO</h2>
+<p>Want to help?</p>
+<p>The original template came with a lot of SASS files and features. Some features are not ported to this Couscous template (e.g. the search).</p>
+<p>What would be good to do:</p>
+<ul>
+<li>find a way to cleanly handle the SASS files and the <code>theme.css</code> (which contains the generated/minified CSS) which right now are duplicates. Relying on SASS wouldn't be a good idea though since it would be end-users have to install SASS.</li>
+<li>clean up unused CSS and SASS style (e.g. search bar, …)</li>
+</ul>
+<p>In the meantime, the original minified <code>theme.css</code> is used and it works just great.</p>
                     </div>
 
                     <footer>

@@ -1,0 +1,16 @@
+/**
+* Для тех проектов, которые не используют стандартные bootstrap-формы, данный класс
+* поможет определить свойства элемента, помеченного как содержащего ошибку
+*/
+.prettyforms-validation-error, .prettyforms-validation-error:focus {
+    border: 1px solid rgb(255, 78, 78) !important;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.14) !important;
+}
+
+.validation-errors-field {
+    margin: 10px 0;
+}
+
+.validation-errors-field p {
+    margin: 0;
+}

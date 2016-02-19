@@ -66,8 +66,8 @@
                                 Серверная сторона
                             </a>
                         </li>
-                                            <li class="toctree-l1 ">
-                            <a class="reference internal "
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
                                href="http://believer-ufa.github.io/prettyforms/docs/ru/08-api.html">
                                 API работы с библиотекой
                             </a>
@@ -100,10 +100,30 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h2 id="api">API</h2>
+<p>Вы можете использовать некоторые методы библиотеки в своих собственных приложениях.</p>
+<pre><code class="language-js">PrettyForms.Validator.validate(element)</code></pre>
+<blockquote>
+<p>Провести валидацию элемента формы. Параметр: jQuery-элемент.</p>
+</blockquote>
+<pre><code class="language-js">PrettyForms.getInputData(elements_container)</code></pre>
+<blockquote>
+<p>Собрать данные из указанного контейнера, попутно проверив всех их валидатором. Если валидация провалилась, возвращает false вместо данных. Параметр: jQuery-элемент, из которого будут собраны все поля.</p>
+</blockquote>
+<pre><code class="language-js">PrettyForms.getInputsList(elements_container)</code></pre>
+<blockquote>
+<p>Вытащить все инпуты из указанного контейнера. Параметр: jQuery-селектор.</p>
+</blockquote>
+<pre><code class="language-js">PrettyForms.sendData(url, mass, input_container_for_clear, input)</code></pre>
+<blockquote>
+<p>Отправить данные на указанный URL и обработать ответ. Параметры:</p>
+<ul>
+<li>URL, на который будут отправлены данные</li>
+<li>Данные, которые будут отправлены на URL</li>
+<li>jQuery-элемент - контейнер для очистки инпутов, либо false</li>
+<li>jQuery-элемент - кнопка, на которую был совершён клик. Она будет сделана неактивной на время запроса.</li>
+</ul>
+</blockquote>
                     </div>
 
                     <footer>

@@ -1,0 +1,46 @@
+.wy-side-nav-search>a, .wy-side-nav-search .wy-dropdown>a {
+    margin-bottom: 0;
+}
+
+/* Code blocks */
+pre > code {
+    display: block;
+    font-size: 12px;
+    white-space: inherit;
+    max-width: inherit;
+    background: transparent;
+    border: none;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #333;
+}
+pre > code.hljs {
+    background: transparent;
+}
+pre {
+    border: 1px solid #e1e4e5;
+    background: #fff;
+    margin: 1px 0 24px 0;
+}
+
+ol, li {
+    list-style-type: decimal;
+}
+
+table {
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+
+table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}

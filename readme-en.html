@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prettyforms.js</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/prettyforms.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+</head>
+<body class="wy-body-for-nav">
+
+    <div class="wy-grid-for-nav">
+
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+            <div class="wy-side-nav-search">
+                <a href="http://believer-ufa.github.io/prettyforms/" class="fa fa-home"> Prettyforms.js</a>
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/01-install.html">
+                                Установка
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/02-algorithm.html">
+                                Алгоритм работы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/03-example.html">
+                                Пример формы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/04-validators.html">
+                                Валидация
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/05-sendbutton.html">
+                                Кнопка отправки формы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/06-laravel.html">
+                                Laravel 5
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/07-serverside.html">
+                                Серверная сторона
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/08-api.html">
+                                API работы с библиотекой
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/09-configuring.html">
+                                Настройки
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/10-problems.html">
+                                Изместные проблемы
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+            &nbsp;
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+                <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+                <a href="http://believer-ufa.github.io/prettyforms/">Prettyforms.js</a>
+            </nav>
+
+
+                        <div class="wy-nav-content">
+                <div class="rst-content">
+                    <div role="main" class="document">
+                        <h1 id="prettyformsjs">PrettyForms.js</h1>
+<p>A small library, through which you can easily make the form validation on the client and server sides. Originally set up to work with <a href="http://getbootstrap.com">Twitter Bootstrap</a>.</p>
+<p>Depends: jQuery.</p>
+<p><a href="demo.gif">Screencast of the library</a></p>
+<h2 id="installation">Installation</h2>
+<p>You can download a zip-file with the library, or set it through the bower:</p>
+<pre><code class="language-shell">bower install prettyforms --save</code></pre>
+<p><em>Tip:</em> to further increase the usability of your site, you can also connect the <a href="https://github.com/t4t5/sweetalert">SweetAlert</a> library, which will be automatically used by Prettyforms.</p>
+<h2 id="the-algorithm-of-the-library">The algorithm of the library:</h2>
+<ol>
+<li>The user fills the fields and clicks a submit button. Library validates all data and, if all goes well, it collects all the data and send the form POST request to server and expects a JSON-answer in a special format.</li>
+<li>The server receives the request, conducting additional validation of the data is already on his side. If there are errors in the validation server, it returns to the client a specially crafted JSON-response containing the command to display the server validation error information about the fields and they contain mistakes.</li>
+<li>If the data have been validated successfully, the server performs the necessary operations and returns JSON-response describing the action that the client machine must perform after a successful transaction processing.</li>
+</ol>
+<p>That is, the server always meet a certain set of commands for the browser, and the browser simply executes these commands on a client machine. This is the algorithm of the library.</p>
+<h2 id="laravel-5">Laravel 5</h2>
+<p>For Laravel, a special component that greatly expands its features and uses for client validation the current library. For more details you can read about it on the <a href="https://github.com/believer-ufa/prettyforms-laravel">page of this component</a>.</p>
+<h2 id="example-of-use">Example of use</h2>
+<p>Connect the JS-file <code>prettyforms.js</code> to the page, and add an attribute validation <code>data-validation="rules;to;validation"</code> a list of validation rules to all fields of your form. After adding the rules, the form fields will automatically become a library for validation PrettyForms. If the data will be invalid, the library will not allow the form to go to the server. This is the minimum functional library without server binding.</p>
+<p>In order to connect the library to work with the server, add to your standard submit button class <code>senddata</code>, by which clicks the button will be captured and processed by library. Now the library will not only produce customer validation, and will be responsible for sending data to the server and handle the response.</p>
+<p>Example forms for Bootstrap-validation framework with attributes:</p>
+<pre><code class="language-html">&lt;form class="form-horizontal" role="form" method="POST" action="/register"&gt;
+    &lt;h1 class="form-signin-heading"&gt;Registration&lt;/h1&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="inputEmail3" class="col-sm-2 control-label"&gt;Email&lt;/label&gt;
+        &lt;div class="col-sm-10"&gt;
+            &lt;input type="email"
+                   class="form-control"
+                   id="inputEmail3"
+                   name="email"
+                   data-validation="notempty;isemail"
+                   placeholder="Enter your email"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="inputPassword3" class="col-sm-2 control-label"&gt;Password&lt;/label&gt;
+        &lt;div class="col-sm-10"&gt;
+            &lt;input
+                type="password"
+                class="form-control"
+                id="inputPassword3"
+                name="password"
+                data-validation="notempty;minlength:6"
+                placeholder="Your password"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;label for="inputPassword4" class="col-sm-2 control-label"&gt;Confirm password&lt;/label&gt;
+        &lt;div class="col-sm-10"&gt;
+            &lt;input type="password"
+                   class="form-control"
+                   id="inputPassword4"
+                   name="password_retry"
+                   data-validation="notempty;passretry"
+                   placeholder="Confirm password suddenly make a mistake? We will check it."&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="form-group"&gt;
+        &lt;div class="col-sm-offset-2 col-sm-10"&gt;
+            &lt;div class="btn btn-default senddata"&gt;Register&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+<h2 id="field-validators">Field validators</h2>
+<p>Validation rules are separated by <code>;</code>, the parameters for the rule passed through a <code>:</code>.
+An example of a correct list of rules contains two rules, one of them with a parameter: <code>"notempty;minlength:6"</code></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>notempty</td>
+<td>Field can not be empty. If a set of radio-input, then one of them must be marked.</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td>minlength</td>
+<td>Not less than {%} characters</td>
+<td>Number of characters</td>
+</tr>
+<tr>
+<td>maxlength</td>
+<td>Not more than {%} characters</td>
+<td>Number of characters</td>
+</tr>
+<tr>
+<td>hasdomain</td>
+<td>The address must start with the correct domain ({%})</td>
+<td>Domain</td>
+</tr>
+<tr>
+<td>isnumeric</td>
+<td>The field can only contain numbers</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td>isemail</td>
+<td>There should be a valid E-Mail</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td>isdate</td>
+<td>The field must contain the date</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td>isphone</td>
+<td>The field should contain a telephone number</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td>minint</td>
+<td>Minimum number entered {%}</td>
+<td>number</td>
+</tr>
+<tr>
+<td>maxint</td>
+<td>Maximum number entered {%}</td>
+<td>number</td>
+</tr>
+<tr>
+<td>intonly</td>
+<td>You can enter only the number of</td>
+<td>Number</td>
+</tr>
+<tr>
+<td>passretry</td>
+<td>Must be equal to the password field</td>
+<td>field name with password, the default &quot;password&quot;</td>
+</tr>
+<tr>
+<td>checked</td>
+<td>Check that checkbox-element is checked. Used to the need to agree to the terms of the license, for example.</td>
+<td>No opts</td>
+</tr>
+</tbody>
+</table>
+<h4 id="adding-a-custom-validator-rule">Adding a custom validator rule</h4>
+<p>You can easily add your own validators, using a similar example:</p>
+<pre><code class="language-javascript">$(window).load(function(){
+  PrettyForms.Validator.setValidator('needempty', 'The field should be empty!', function(element, value, param){
+      // needempty - validator name
+      // the second option - error message
+      // third - is validation function itself, which passed three parameters: jQuery-element, value of this element, and validator parameters if it was referred to the properties of the validation
+      return value === '';
+  });
+});</code></pre>
+<h4 id="additional-attributes-of-validation">Additional attributes of validation</h4>
+<p>The library also allows you to add to the fields some additional attributes that govern the behavior of the test field.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+<th>Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-dontsend=&quot;true&quot;</td>
+<td>Disables verification of the field and sending it to the server</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h2 id="attributes-of-submit-button">Attributes of submit button</h2>
+<p>Button, clicking on which generates a sending form can also have several additional attributes that explain where data should be sent from which DOM-element has to be collected, and some other forms of behavior characteristics. If the attributes have not been specified, the data will be taken from your form.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+<th>Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-input</td>
+<td>jQuery-selector element from which data will be collected to send to the server</td>
+<td>No, unless otherwise indicated, it will attempt to pull the data from the form, which contains the button. If the form has not been found, a request is sent with no data.</td>
+</tr>
+<tr>
+<td>href or data-link</td>
+<td>The address to which to send the data</td>
+<td>No, the default data will be taken from the <code>action</code> attribute form, and if it's empty, they will be sent to the current URL of the page</td>
+</tr>
+<tr>
+<td>data-clearinputs=&quot;true&quot;</td>
+<td>Clear form fields after a successful request?</td>
+<td>No require</td>
+</tr>
+<tr>
+<td>class=&quot;... really&quot;</td>
+<td>Lets ask before sending data. If the <a href="https://github.com/t4t5/sweetalert">SweetAlert</a> is connected to the site, it will be used.</td>
+<td>No require</td>
+</tr>
+<tr>
+<td>data-really-text=&quot;&quot;</td>
+<td>The question text, the default is taken from the <code>PrettyForms.messages.really</code></td>
+<td>No require</td>
+</tr>
+<tr>
+<td>data-really-text-btn=&quot;&quot;</td>
+<td>Text button, clicking on which will cause the action. By default, the text is taken from <code>PrettyForms.messages.really_agree</code></td>
+<td>No require</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validation-on-server">Validation on server</h2>
+<p>Validation on the server must do the framework with which you are working. Library expects a response object whose keys - the names of commands and values - a command parameters. So, the command for displaying validation errors called <code>validation_errors</code>, as well as its parameters must be specified is another object whose keys are the field names and values as they shall contain one-dimensional arrays with texts validation errors, which were not passed.</p>
+<p>In other words, the logic would be similar to the following: if the field validation fails, the server returns a JSON-response command to display errors. If the validation is successful, the server returns a JSON-response with other commands, for example, redirect user to a page message on successful registration. An example of responding to PHP:</p>
+<pre><code class="language-php">// Validate the data, stores the result in the validation of $validation_success
+
+if ($validation_success === false) {
+    // The data is invalid
+    $json_response = [
+        'validation_errors' =&gt; [
+            'field_name' =&gt; array('error_message_1','error_message_2'),
+            'second_field_name' =&gt; array('error_message')
+            // etc.
+        ]
+    ]);
+} else {
+
+    // Here we write the code you need to perform on a server..
+
+    // And prepare a response to the client teams:
+    $json_response = [
+        'redirect' =&gt; '/registration_success'
+    ];
+}
+
+// Returns the response to the client
+echo json_encode($json_response);</code></pre>
+<h2 id="command-handlers-from-the-server">Command handlers from the server</h2>
+<p>Initially, the library supports the following commands that you can send it to the server:</p>
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th>Description</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validation_errors</code></td>
+<td>Display validation errors</td>
+<td>The object where the keys - the names of the fields, values - array errors. Or just a string, then it will be displayed next to the submit button</td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td>Perform redirect the user to another page</td>
+<td>URL of the page</td>
+</tr>
+<tr>
+<td><code>refresh</code></td>
+<td>Reload current page</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td><code>nothing</code></td>
+<td>Do nothing</td>
+<td>No opts</td>
+</tr>
+<tr>
+<td><code>success</code></td>
+<td>Display the message about success</td>
+<td><code>{ title: 'Title', text: 'Message text'  }</code></td>
+</tr>
+<tr>
+<td><code>warning</code></td>
+<td>Display the message about danger</td>
+<td><code>{ title: 'Title', text: 'Message text'  }</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td>Display the informative message</td>
+<td><code>{ title: 'Title', text: 'Message text'  }</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Display an error message</td>
+<td><code>{ title: 'Title', text: 'Message text'  }</code></td>
+</tr>
+</tbody>
+</table>
+<p>For commands <code>success</code>,<code>warning</code>, <code>info</code> and<code>error</code> do the following: if your site have a <a href="https://github.com/t4t5/sweetalert">SweetAlert</a> library, it will be involved in their implementation.</p>
+<p>Example of adding your own event handler:</p>
+<pre><code class="language-javascript">PrettyForms.Commands.registerHandler('command_name', function (data) {
+  // We do everything here that I want to become.
+  // data - an object with data that is sent to us server
+});</code></pre>
+<h2 id="format-of-client-server-communication-protocol">Format of client-server communication protocol</h2>
+<p>The client library expects the server response in the following format:</p>
+<pre><code class="language-javascript">{
+  command_name_1 : "params",
+  command_name_2 : "params"
+}</code></pre>
+<p>To display validation errors, you must send the following response to the client:</p>
+<pre><code class="language-javascript">{
+  validation_errors: {
+    form_field_1: ["the text of the error №1", "the text of the error №2"],
+    form_field_2: ["the text of the error №1", "the text of the error №2", "the text of the error №3"]
+  }
+}</code></pre>
+<h2 id="api">API</h2>
+<p>You can use some of the methods of the library in your own applications.</p>
+<p><code>PrettyForms.Validator.validate(element)</code></p>
+<blockquote>
+<p>Perform validation of a form. Parameter: jQuery-element.</p>
+</blockquote>
+<p><code>PrettyForms.getInputData(elements_container)</code></p>
+<blockquote>
+<p>Collect data from said container, simultaneously checking them all validator. If the validation fails, it returns false instead of the data. Parameter: jQuery-element of which will be collected in all fields.</p>
+</blockquote>
+<p><code>PrettyForms.getInputsList(elements_container)</code></p>
+<blockquote>
+<p>Pull out all the INPUT of said container. Parameter: jQuery-selector.</p>
+</blockquote>
+<p><code>PrettyForms.sendData(url, mass, input_container_for_clear, input)</code></p>
+<blockquote>
+<p>Send the data to the specified URL and process the response. parameters:</p>
+<ul>
+<li>URL, which will be sent details</li>
+<li>The data to be sent to the URL</li>
+<li>jQuery-element - the container for cleaning INPUT or false</li>
+<li>jQuery-element - the button, which was committed by a click. It will be made inactive at the time of the request.</li>
+</ul>
+</blockquote>
+<h2 id="advanced-setup">Advanced Setup</h2>
+<p>PrettyForms originally tuned for sites created based on the Twitter Bootstrap, but you can easily replace it with a template with error messages on their own, redefining three variables in the object &quot;PrettyForms.templates&quot;.</p>
+<p>During the validation process, the library will automatically create containers for error messages if they are not on the form. For each field, just below it, the container will be created, based on a template located in the <code>PrettyForms.templates.element_validations_container</code>. At the time of writing this wiki, the pattern has the form:</p>
+<pre><code class="language-html">&lt;div style="display:none;margin-top:10px" id="validation-error-{%}" class="alert alert-danger" role="alert"&gt;&lt;/div&gt;</code></pre>
+<p>This container will be placed error messages when they occur during the test fields. You can place data fields within its own form, in those places where you want, if you do not have automatic generation approached for any reason. Just add these containers for each field on the form, with an attribute <code>id="validation-error-{field_name}"</code>. For example, if you have on the page <code>&lt;input name="email"/&gt;</code>, then it can be created anywhere in the container error: <code>&lt;div style="display:none;" id="validation-error-email" class="alert alert-danger" role="alert"&gt;&lt;/div&gt;</code>. Now the library will find your container and place the error messages in it.</p>
+<p>Also, the library will automatically generate a container for common error messages validation. He will be placed immediately before the submit button, he is taken from the template variable <code>PrettyForms.templates.form_validation_messages</code>. At the time of writing wiki template is as follows:</p>
+<pre><code class="language-html">&lt;div style="margin-bottom:10px" class="validation-errors alert alert-danger"&gt;&lt;/div&gt;</code></pre>
+<p>You can also place the container by hand in the place form where you will be most comfortable. To help find your container, add it to a class <code>.validation-errors</code>.</p>
+<h2 id="known-issues">Known Issues</h2>
+<p>One of the frequent problems - it is difficult to obtain the contents of those fields, which applied some additional plug-like or Chosen CKEDitor. Specifically, for these two plug-ins in the library has built-in support, and she gets the correct values of the fields associated with these plug-ins, but in the world there are thousands of other plug-ins, with which it can work properly. Keep in mind when using this library.</p>
+                    </div>
+
+                    <footer>
+                        <hr/>
+                                                    <div role="contentinfo">
+                                <p>
+                                    Find Prettyforms.js on <a href="https://github.com/believer-ufa/prettyforms">GitHub</a>.
+                                </p>
+                            </div>
+                                                Built with <a href="http://couscous.io/">Couscous</a> using a <a href="https://github.com/CouscousPHP/Template-ReadTheDocs">theme</a> based on <a href="https://readthedocs.org/">Read the Docs</a>.
+                    </footer>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="http://believer-ufa.github.io/prettyforms/js/theme.js"></script>
+    <script src="http://believer-ufa.github.io/prettyforms/js/prettyforms.js"></script>
+
+    <script>
+        $(function() {
+            // Syntax highlighting
+            hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+</body>
+</html>

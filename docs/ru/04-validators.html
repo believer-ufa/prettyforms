@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prettyforms.js</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/theme-fixes.css" type="text/css"/>
+    <link rel="stylesheet" href="http://believer-ufa.github.io/prettyforms/css/prettyforms.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+</head>
+<body class="wy-body-for-nav">
+
+    <div class="wy-grid-for-nav">
+
+        <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+            <div class="wy-side-nav-search">
+                <a href="http://believer-ufa.github.io/prettyforms/" class="fa fa-home"> Prettyforms.js</a>
+            </div>
+
+            <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/01-install.html">
+                                Установка
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/02-algorithm.html">
+                                Алгоритм работы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/03-example.html">
+                                Пример формы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/04-validators.html">
+                                Валидация
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/05-sendbutton.html">
+                                Кнопка отправки формы
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/06-laravel.html">
+                                Laravel 5
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/07-serverside.html">
+                                Серверная сторона
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/08-api.html">
+                                API работы с библиотекой
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/09-configuring.html">
+                                Настройки
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="http://believer-ufa.github.io/prettyforms/docs/ru/10-problems.html">
+                                Изместные проблемы
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+            &nbsp;
+        </nav>
+
+        <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+                        <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+                <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+                <a href="http://believer-ufa.github.io/prettyforms/">Prettyforms.js</a>
+            </nav>
+
+
+                        <div class="wy-nav-content">
+                <div class="rst-content">
+                    <div role="main" class="document">
+                        <h2 id="-">Валидаторы полей</h2>
+<p>Правила валидации разделяются знаком <code>;</code>. Параметры для правил передаются через знак <code>:</code>.
+Пример корректного списка правил, содержащего два правила, одно из них с параметром: <code>"notempty;minlength:6"</code></p>
+<table>
+<thead>
+<tr>
+<th>наименование</th>
+<th>Описание</th>
+<th>Параметр</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>notempty</td>
+<td>Поле не может быть пустым. Если это набор radio-инпутов, то один из них должен быть помечен.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>minlength</td>
+<td>Не менее {%} символов</td>
+<td>кол-во символов</td>
+</tr>
+<tr>
+<td>maxlength</td>
+<td>Не более {%} символов</td>
+<td>кол-во символов</td>
+</tr>
+<tr>
+<td>hasdomain</td>
+<td>Адрес должен начинаться с верного домена ({%})</td>
+<td>домен</td>
+</tr>
+<tr>
+<td>isnumeric</td>
+<td>Поле может содержать только цифры</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isemail</td>
+<td>Должен быть введен корректный E-Mail</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isdate</td>
+<td>Поле должно содержать дату</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isphone</td>
+<td>Поле должно содержать номер телефона</td>
+<td>-</td>
+</tr>
+<tr>
+<td>minint</td>
+<td>Минимальное вводимое число {%}</td>
+<td>число</td>
+</tr>
+<tr>
+<td>maxint</td>
+<td>Максимальное вводимое число {%}</td>
+<td>число</td>
+</tr>
+<tr>
+<td>intonly</td>
+<td>Можно ввести только число</td>
+<td>число</td>
+</tr>
+<tr>
+<td>passretry</td>
+<td>Должно быть равно полю с паролем</td>
+<td>наименование поля с паролем, по-умолчанию &quot;password&quot;</td>
+</tr>
+<tr>
+<td>checked</td>
+<td>Проверить, что на checkbox-элементе стоит галочка. Используется для необходимости согласиться с условиями лицензии, например.</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="--">Добавление своего валидатора</h4>
+<p>Вы можете легко добавить свои собственные валидаторы, используя подобный пример:</p>
+<pre><code class="language-javascript">$(window).load(function(){
+  PrettyForms.Validator.setValidator('needempty', 'Поле должно быть пустым!', function(element, value, param){
+      // needempty - название валидатора
+      // второй параметр - сообщение об ошибке
+      // третий - это сама функция валидации, в которую передаются три параметра: jQuery-элемент, значение элемента и параметр валидатора, если он был передан в свойствах валидации
+      return value === '';
+  });
+});</code></pre>
+<h4 id="---1">Дополнительные атрибуты валидации</h4>
+<p>Библиотека также позволяет добавлять к полям некоторые дополнительные атрибуты, которые регулируют поведение проверки поля.</p>
+<table>
+<thead>
+<tr>
+<th>атрибут</th>
+<th>Описание</th>
+<th>Обязательно?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-dontsend=&quot;true&quot;</td>
+<td>Отключает проверку данного поля и его отправку на сервер</td>
+<td>Нет</td>
+</tr>
+</tbody>
+</table>
+<h2 id="---2">Валидация на сервере</h2>
+<p>Валидацией на сервере должен заниматься тот фреймворк, с которым вы работаете. Библиотека ожидает в качестве ответа объект, ключи которого - это названия команд, а значения - это параметры команды. Так, команда отображения ошибок валидации называется <code>validation_errors</code>, а в качестве её параметров должен быть указан уже другой объект, ключами которого являются названия полей, а в качестве их значений должны содержаться одномерные массивы с текстами ошибок валидации, которые были не пройдены.</p>
+<p>Говоря другими словами, логика должна быть примерно следующая: если валидация полей не прошла, то сервер возвращает JSON-ответ с командой отображения ошибок. Если же валидация прошла успешно, сервер возвращает JSON-ответ с другими командами, например, редиректит пользователя на страницу сообщения об успешной регистрации. Пример подготовки ответа на PHP:</p>
+<pre><code class="language-php">// Валидируем данные, сохраняем результат валидации в $validation_success
+
+if ($validation_success === false) {
+    // Данные невалидны
+    $json_response = [
+        'validation_errors' =&gt; [
+            'field_name' =&gt; array('error_message_1','error_message_2'),
+            'second_field_name' =&gt; array('error_message')
+            // и так далее
+        ]
+    ]);
+} else {
+
+    // Здесь пишем тот код, который нужно выполнить на сервере..
+
+    // И подготавливаем клиенту ответ с командами:
+    $json_response = [
+        'redirect' =&gt; '/registration_success'
+    ];
+}
+
+// Возвращает ответ клиенту
+echo json_encode($json_response);</code></pre>
+                    </div>
+
+                    <footer>
+                        <hr/>
+                                                    <div role="contentinfo">
+                                <p>
+                                    Find Prettyforms.js on <a href="https://github.com/believer-ufa/prettyforms">GitHub</a>.
+                                </p>
+                            </div>
+                                                Built with <a href="http://couscous.io/">Couscous</a> using a <a href="https://github.com/CouscousPHP/Template-ReadTheDocs">theme</a> based on <a href="https://readthedocs.org/">Read the Docs</a>.
+                    </footer>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script src="http://believer-ufa.github.io/prettyforms/js/theme.js"></script>
+    <script src="http://believer-ufa.github.io/prettyforms/js/prettyforms.js"></script>
+
+    <script>
+        $(function() {
+            // Syntax highlighting
+            hljs.initHighlightingOnLoad();
+        });
+    </script>
+
+</body>
+</html>

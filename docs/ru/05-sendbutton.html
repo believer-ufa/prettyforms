@@ -48,8 +48,8 @@
                                 Валидация
                             </a>
                         </li>
-                                            <li class="toctree-l1 ">
-                            <a class="reference internal "
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
                                href="http://believer-ufa.github.io/prettyforms/docs/ru/05-sendbutton.html">
                                 Кнопка отправки формы
                             </a>
@@ -100,10 +100,51 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h2 id="---">Атрибуты кнопки отправки формы</h2>
+<p>Кнопка, нажатие на которую генерирует отправку формы, может также иметь несколько дополнительных атрибутов, объясняющих,
+куда должны быть отправлены данные, из какого DOM-элемента они должны быть собраны, и некоторые
+другие свойства поведения формы. Если атрибуты не были указаны, данные будут взяты из вашей формы.</p>
+<table>
+<thead>
+<tr>
+<th>атрибут</th>
+<th>Описание</th>
+<th>Обязательно?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-input</td>
+<td>jQuery-селектор элемента, из которого будут собраны данные для отправки на сервер</td>
+<td>Нет, если не указано, то будет сделана попытка вытащить данные из формы, в которой лежит кнопка. Если формы не было найдено, будет отправлен запрос без данных.</td>
+</tr>
+<tr>
+<td>href или data-link</td>
+<td>Адрес, на который будут отправлены данные</td>
+<td>Нет, по умолчанию данные будут взяты из атрибута action формы, если же и там пусто, то они будут отправлены на текущий URL страницы</td>
+</tr>
+<tr>
+<td>data-clearinputs=&quot;true&quot;</td>
+<td>Очистить поля формы после успешного выполнения запроса?</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>class=&quot;... really&quot;</td>
+<td>Позволяет задать вопрос перед отправкой данных. Если к сайту подключён плагин <a href="https://github.com/t4t5/sweetalert">SweetAlert</a>, он будет задействован.</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>data-really-text=&quot;&quot;</td>
+<td>Текст вопроса, по умолчанию берется из <code>PrettyForms.messages.really</code></td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>data-really-text-btn=&quot;&quot;</td>
+<td>Текст кнопки, нажатие на которую вызовет выполнение действия. По-умолчанию, текст берется из <code>PrettyForms.messages.really_agree</code></td>
+<td>Нет</td>
+</tr>
+</tbody>
+</table>
                     </div>
 
                     <footer>

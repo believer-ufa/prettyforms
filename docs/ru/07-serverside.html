@@ -60,8 +60,8 @@
                                 Laravel 5
                             </a>
                         </li>
-                                            <li class="toctree-l1 ">
-                            <a class="reference internal "
+                                            <li class="toctree-l1 current">
+                            <a class="reference internal current"
                                href="http://believer-ufa.github.io/prettyforms/docs/ru/07-serverside.html">
                                 Серверная сторона
                             </a>
@@ -100,10 +100,81 @@
                         <div class="wy-nav-content">
                 <div class="rst-content">
                     <div role="main" class="document">
-                        <h1 id="prettyformsjs">PrettyForms.js</h1>
-<p>Небольшая библиотека, благодаря которой можно легко сделать валидацию формы на клиентской и серверной сторонах.</p>
-<p>Зависимости: jQuery.</p>
-<p><img src="demo.gif" alt="Скринкаст работы библиотеки" /></p>
+                        <h2 id="-----">Формат протокола общения клиента с сервером</h2>
+<p>Клиентская библиотека ожидает от сервера ответ в следующем формате:</p>
+<pre><code class="language-javascript">{
+  command_name_1 : "params",
+  command_name_2 : "params"
+}</code></pre>
+<p>Для отображения ошибок валидации, необходимо послать клиенту следующий ответ:</p>
+<pre><code class="language-javascript">{
+  validation_errors: {
+    form_field_1: ["текст ошибки №1", "текст ошибки №2"],
+    form_field_2: ["текст ошибки №1", "текст ошибки №2", "текст ошибки №2"]
+  }
+}</code></pre>
+<h2 id="------1">Обработка команд с сервера на клиенте</h2>
+<p>Изначально библиотека поддерживает следующие команды, которые можно отправлять ей с сервера:</p>
+<table>
+<thead>
+<tr>
+<th>команда</th>
+<th>Описание</th>
+<th>Параметры</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validation_errors</code></td>
+<td>Вывести ошибки валидации</td>
+<td>Объект, где ключи - названия полей, значения - массивы с ошибками. Либо просто строка, тогда она будет выведена рядом с кнопкной отправки формы</td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td>Произвести редирект пользователя на другую страницу</td>
+<td>URL страницы</td>
+</tr>
+<tr>
+<td><code>refresh</code></td>
+<td>Обновить текущую страницу</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td><code>nothing</code></td>
+<td>Ничего не делать</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td><code>success</code></td>
+<td>Вывести сообщение об успехе</td>
+<td><code>{ title: 'Заголовок', text: 'Текст сообщения'  }</code></td>
+</tr>
+<tr>
+<td><code>warning</code></td>
+<td>Вывести сообщение об опасности</td>
+<td><code>{ title: 'Заголовок', text: 'Текст сообщения'  }</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td>Вывести информативное сообщение</td>
+<td><code>{ title: 'Заголовок', text: 'Текст сообщения'  }</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Вывести сообщение об ошибке</td>
+<td><code>{ title: 'Заголовок', text: 'Текст сообщения'  }</code></td>
+</tr>
+</tbody>
+</table>
+<p>Для команд <code>success</code>, <code>warning</code>, <code>info</code> и <code>error</code> действительно следующее: если к вашему сайту будет подключён плагин <a href="https://github.com/t4t5/sweetalert">SweetAlert</a>, то он будет задействован при их выполнении.</p>
+<h2 id="-">Собственные команды</h2>
+<p>Вы можете легко добавить свои собственные команды, чтобы выполнять
+их в браузере тогда, когда сервер вернёт ваш команду.</p>
+<p>Пример добавления собственного обработчика события:</p>
+<pre><code class="language-javascript">PrettyForms.Commands.registerHandler('command_name', function (data) {
+  // делаем здесь всё, что хочем.
+  // data - это объект с данными, которые отправил нам сервер
+});</code></pre>
                     </div>
 
                     <footer>
