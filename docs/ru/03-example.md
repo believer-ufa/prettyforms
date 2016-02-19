@@ -48,6 +48,6 @@ currentMenu: example
 
 Другие примеры:
 
-1. [Простая форма](/demo/simple-form.html)
-2. [Горизонтальная Bootstrap форма](/demo/horizontal-forms-input-group-addons.html)
-3. [Использование сторонних плагинов](/demo/plugins.html)
+1. [Простая форма](../../demo/simple-form.html)
+2. [Горизонтальная Bootstrap форма](../../demo/horizontal-forms-input-group-addons.html)
+3. [Использование сторонних плагинов](../../demo/plugins.html)
