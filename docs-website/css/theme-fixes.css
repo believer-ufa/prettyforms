@@ -1,0 +1,57 @@
+.wy-side-nav-search>a, .wy-side-nav-search .wy-dropdown>a {
+    margin-bottom: 0;
+}
+
+/* Code blocks */
+pre > code {
+    display: block;
+    font-size: 12px;
+    white-space: inherit;
+    max-width: inherit;
+    background: transparent;
+    border: none;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #333;
+}
+pre > code.hljs {
+    background: transparent;
+}
+pre {
+    border: 1px solid #e1e4e5;
+    background: #fff;
+    margin: 1px 0 24px 0;
+}
+
+.wy-nav-content ol, .wy-nav-content ul {
+    list-style-type: decimal;
+    margin: 20px 0;
+}
+
+.wy-nav-content ol li {
+    list-style-type: decimal;
+    margin-left: 30px;
+}
+
+.wy-nav-content ul li {
+    list-style-type: circle;
+    margin-left: 30px;
+}
+
+.wy-nav-content table {
+    margin-bottom: 30px;
+}
+
+.wy-nav-content table th, .wy-nav-content table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+
+.wy-nav-content table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.wy-nav-content table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}

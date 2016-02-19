@@ -1,0 +1,75 @@
+template:
+    #url: https://github.com/CouscousPHP/Template-ReadTheDocs
+    directory: docs-website
+    index: readme.md
+
+# List of directories to exclude from the processing (default contains "vendor" and "website")
+# Paths are relative to the repository root
+exclude:
+    - demo
+
+scripts:
+    # Scripts to execute before generating the website
+    before:
+        - cp prettyforms.js docs-website/js/prettyforms.js
+        - cp prettyforms.css docs-website/css/prettyforms.css
+        - cp demo/* docs-website/demo/
+
+    # Scripts to execute after generating the website
+    #after:
+    #    - rm website/couscous.phar
+
+# Set this variable to use a Custom Domain
+# The content of this variable will be directly inserted into the CNAME file
+#cname: docs.yourdomain.com
+
+# Set the target branch in which to deploy the generated website
+branch: gh-pages
+
+# Any variable you put in this file is also available in the Twig layouts:
+title: Prettyforms.js
+
+# Base URL of the published website (no "/" at the end!)
+# You are advised to set and use this variable to write your links in the HTML layouts
+baseUrl: http://believer-ufa.github.io/prettyforms
+
+github:
+    user: believer-ufa
+    repo: prettyforms
+
+menu:
+    items:
+        #english:
+        #    text: English docs
+        #    relativeUrl: readme-en.html
+        install:
+            text: Установка
+            relativeUrl: docs/ru/01-install.html
+        algorithm:
+            text: Алгоритм работы
+            relativeUrl: docs/ru/02-algorithm.html
+        example:
+            text: Пример формы
+            relativeUrl: docs/ru/03-example.html
+        validators:
+            text: Валидация
+            relativeUrl: docs/ru/04-validators.html
+        sendbutton:
+            text: Кнопка отправки формы
+            relativeUrl: docs/ru/05-sendbutton.html
+        laravel:
+            text: Laravel 5
+            relativeUrl: docs/ru/06-laravel.html
+        serverside:
+            text: Серверная сторона
+            relativeUrl: docs/ru/07-serverside.html
+        api:
+            text: API работы с библиотекой
+            relativeUrl: docs/ru/08-api.html
+        configuring:
+            text: Настройки
+            relativeUrl: docs/ru/09-configuring.html
+        problems:
+            text: Изместные проблемы
+            relativeUrl: docs/ru/10-problems.html
+
