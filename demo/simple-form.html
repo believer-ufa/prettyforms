@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>PrettyForms</title>
+        <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="../js/prettyforms.js"></script>
+        <link href="../js/prettyforms.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <form class="form-horizontal" role="form" method="POST" action="register">
+                <h1 class="form-signin-heading">Регистрация</h1>
+                <p>Пример данной формы нестандартен для Bootstrap. Это форма для тех проектов, которые не подключали данный фреймворк.</p>
+
+                <p>Email</p>
+                <input type="email"
+                       class="form-control"
+                       id="inputEmail3"
+                       name="email"
+                       data-validation="notempty;isemail"
+                       placeholder="Введите ваш email, чтобы позже иметь возможность восстановить пароль.">
+
+                <br/>
+                <p>Пароль</p>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="inputPassword3"
+                    name="password"
+                    data-validation="notempty;minlength:6"
+                    placeholder="Ваш пароль">
+
+                <br/>
+                <p>Повторите пароль</p>
+                <input type="password"
+                       class="form-control"
+                       id="inputPassword4"
+                       name="password_retry"
+                       data-validation="notempty;passretry"
+                       placeholder="Повторите пароль, вдруг ошиблись при вводе? Мы проверим это.">
+
+                <h4>Информация о вашем персонаже:</h4>
+
+                <br/>
+                <p>Имя</p>
+                <input type="text"
+                       class="form-control"
+                       id="inputName"
+                       name="name"
+                       data-validation="notempty"
+                       placeholder="Ваше имя в игре. Не обязательно реальное.">
+
+                <br/>
+                <p>Фамилия</p>
+                <input type="text"
+                       class="form-control"
+                       id="inputFamily"
+                       name="family"
+                       data-validation="notempty"
+                       placeholder="Фамилия">
+
+                <br/>
+                <p>Пол</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sex" id="inputSex" value="1" checked> Мужской
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sex" id="inputSex" value="2"> Женский
+                    </label>
+                </div>
+
+                <br/>
+                <div class="btn btn-default senddata">Зарегистрироваться</div>
+                <br/><br/><br/>
+            </form>
+        </div>
+    </body>
+</html>
+

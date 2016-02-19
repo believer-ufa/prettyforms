@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>PrettyForms</title>
+        <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="../js/prettyforms.js"></script>
+        <link href="../js/prettyforms.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <form class="form-horizontal" role="form" method="POST">
+                <h1 class="form-signin-heading">Регистрация</h1>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon">@</span>
+                            <input type="email"
+                                   class="form-control"
+                                   id="inputEmail3"
+                                   name="email"
+                                   data-validation="notempty;isemail"
+                                   placeholder="Введите ваш email, чтобы позже иметь возможность восстановить пароль.">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
+                    <div class="col-sm-10">
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="inputPassword3"
+                            name="password"
+                            data-validation="notempty;minlength:6"
+                            placeholder="Ваш пароль">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword4" class="col-sm-2 control-label">Повторите пароль</label>
+                    <div class="col-sm-10">
+                        <input type="password"
+                               class="form-control"
+                               id="inputPassword4"
+                               name="password_retry"
+                               data-validation="notempty;passretry"
+                               placeholder="Повторите пароль, вдруг ошиблись при вводе? Мы проверим это.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p>Информация о вашем персонаже:</p>
+                </div>
+                <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Имя</label>
+                    <div class="col-sm-10">
+                        <input type="text"
+                               class="form-control"
+                               id="inputName"
+                               name="name"
+                               data-validation="notempty"
+                               placeholder="Ваше имя в игре. Не обязательно реальное.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputFamily" class="col-sm-2 control-label">Фамилия</label>
+                    <div class="col-sm-10">
+                        <input type="text"
+                               class="form-control"
+                               id="inputFamily"
+                               name="family"
+                               data-validation="notempty"
+                               placeholder="Фамилия">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSex" class="col-sm-2 control-label">Пол</label>
+                    <div class="col-sm-10">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="sex" id="inputSex" value="1" checked> Мужской
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="sex" id="inputSex" value="2"> Женский
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="btn btn-default senddata">Зарегистрироваться</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+
