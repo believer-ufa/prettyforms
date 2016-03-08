@@ -70,6 +70,6 @@ menu:
             text: Настройки
             relativeUrl: docs/ru/09-configuring.html
         problems:
-            text: Изместные проблемы
+            text: Известные проблемы
             relativeUrl: docs/ru/10-problems.html
 
