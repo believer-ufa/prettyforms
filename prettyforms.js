@@ -460,7 +460,7 @@ PrettyForms = new function () {
                         // Радио и чекбоксы надо проверить на "чекнутость" перед добавлением
                         case 'radio':
                         case 'checkbox':
-                            if ($this.is(':checked')) {
+                            if (form_element.is(':checked')) {
                                 element_value = form_element.val();
                             }
                         break;
@@ -513,7 +513,7 @@ PrettyForms = new function () {
      * @param object mass
      * @param object input_container (optionally) a container in which you will clear all data entered by INPUT (необязательно) контейнер, в котором необходимо будет очистить все инпуты от введенных данных
      */
-    this.sendData = function (url, mass, input_container_for_clear, input) {
+    this.sendData = function (url, mass, input_container_for_clear, input, retryRequestNum) {
         // Deny clicking repeatedly on our button while sending the data goes
         // Запретим кликать повторно на нашу кнопочку, пока идёт отправка данных
         input.attr('disabled', 'disabled').addClass('disabled');
