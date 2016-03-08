@@ -723,14 +723,15 @@ $(document).ready(function () {
                         : PrettyForms.messages.really_agree;
 
                     swal({
-                        title:              PrettyForms.messages.really_title,
-                        text:               text,
-                        type:               "warning",
-                        showCancelButton:   true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText:  text_btn,
-                        cancelButtonText:   PrettyForms.messages.really_cancel,
-                        closeOnConfirm:     true
+                        title               : PrettyForms.messages.really_title,
+                        text                : text,
+                        type                : "warning",
+                        showCancelButton    : true,
+                        confirmButtonColor  : "#DD6B55",
+                        confirmButtonText   : text_btn,
+                        cancelButtonText    : PrettyForms.messages.really_cancel,
+                        closeOnConfirm      : true,
+                        allowOutsideClick   : false
                     }, function() {
                         execute_action();
                     });
