@@ -503,6 +503,9 @@ PrettyForms = new function () {
         this.form_container = $(element);
     };
 
+    this.lastRequestData = {}
+    this.retryRequestsCount = 0
+
     /**
      * Send data to a URL and process the response
      * Отправить данные на определенный URL и обработать ответ
@@ -549,6 +552,28 @@ PrettyForms = new function () {
             return success;
         };
 
+        // Запомним все данные этого запроса, чтобы иметь возможность
+        // при необходимости повтоирть его. Такое может быть тогда, когда
+        // мы например делаем запрос, а сервер говорит о том, что секретный
+        // токен устарел и не делает ничего.
+        PrettyForms.lastRequestData = {
+            url : url,
+            data : mass,
+            input_container_for_clear : input_container_for_clear,
+            input : input
+        }
+
+        if (retryRequestNum === undefined) {
+            PrettyForms.retryRequestsCount = 0
+        } else {
+            PrettyForms.retryRequestsCount += 1
+        }
+
+        // Предотвратим повторнуюотправку одинаковых запросов
+        if (PrettyForms.retryRequestsCount > 2) {
+            return
+        }
+
         $.ajax({
             type: "POST",
             url: url,
@@ -590,6 +615,11 @@ PrettyForms = new function () {
             }
         });
     };
+
+    this.sendDataAgain = function() {
+        var d = PrettyForms.lastRequestData;
+        this.sendData(d.url, d.data, d.input_container_for_clear, d.input, PrettyForms.retryRequestsCount)
+    }
 };
 
 $(document).ready(function () {
