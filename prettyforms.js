@@ -625,7 +625,7 @@
 
                     if (data.status === 422) {
                         // Validation error | Ошибка валидации
-                        PrettyForms.Commands.execute('validation_errors', data);
+                        PrettyForms.Commands.execute('validation_errors', data.responseJson);
                     } else {
                         PrettyForms.Commands.execute('validation_errors', PrettyForms.messages.server_error);
                     }
@@ -779,8 +779,8 @@
                         PrettyForms.validation_errors_container.html(data).show();
                     } else {
                         var focused = false;
-
-                        jQuery.each(data.responseJSON, function(input_name, errors) {
+                        
+                        jQuery.each(data, function(input_name, errors) {
                             var element = PrettyForms.form_container.find('[name="'+input_name+'"]');
                             if (element.length > 0) {
                                 var element_errors_str = '';
