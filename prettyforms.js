@@ -749,9 +749,9 @@
                             cancelButtonText    : PrettyForms.messages.really_cancel,
                             closeOnConfirm      : true,
                             allowOutsideClick   : false
-                        }, function() {
+                        }).then(function() {
                             execute_action();
-                        });
+                        })
                     } else {
                         if (confirm(text)) {
                             execute_action();
@@ -779,7 +779,7 @@
                         PrettyForms.validation_errors_container.html(data).show();
                     } else {
                         var focused = false;
-                        
+
                         jQuery.each(data, function(input_name, errors) {
                             var element = PrettyForms.form_container.find('[name="'+input_name+'"]');
                             if (element.length > 0) {
