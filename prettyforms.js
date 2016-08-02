@@ -625,7 +625,7 @@
 
                     if (data.status === 422) {
                         // Validation error | Ошибка валидации
-                        PrettyForms.Commands.execute('validation_errors', data.responseJson);
+                        PrettyForms.Commands.execute('validation_errors', data.responseJSON);
                     } else {
                         PrettyForms.Commands.execute('validation_errors', PrettyForms.messages.server_error);
                     }
