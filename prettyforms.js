@@ -551,7 +551,7 @@
             var clearInputData = function (inputs_container) {
                 PrettyForms.getInputsList(inputs_container).map(function () {
                     var $this = jQuery(this);
-                    if ($this.attr('type') !== 'hidden') {
+                    if ($this.attr('type') !== 'hidden' && $this.attr('type') !== 'checkbox') {
                         $this.val('');
                     }
                 });
