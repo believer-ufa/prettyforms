@@ -747,10 +747,11 @@
                             confirmButtonColor  : "#DD6B55",
                             confirmButtonText   : text_btn,
                             cancelButtonText    : PrettyForms.messages.really_cancel,
-                            closeOnConfirm      : true,
                             allowOutsideClick   : false
-                        }).then(function() {
-                            execute_action();
+                        }).then(function(result) {
+                            if ( ! result.dismiss) {
+                                execute_action();
+                            }
                         })
                     } else {
                         if (confirm(text)) {
